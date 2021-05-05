@@ -26,12 +26,18 @@ body {
 }
 
 .dashboard-status-text {
-  font-weight: 500;
+  color: $primary;
+  font-size: small;
+  font-weight: 600;
   text-align: center;
   border-radius: 5px;
 }
 
 .lead {
+  text-align: center;
+  color: $primary;
+  font-size: medium;
+  font-weight: 600;
   text-align: center;
 }
 
