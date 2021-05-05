@@ -1,0 +1,62 @@
+$primary: #2b155bff;
+$body-bg: #f3ebfdff;
+$secondary: rgb(228, 212, 248);
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.jumbotron {
+  background-color: rgb(205, 192, 223);
+  padding: 5px;
+}
+
+// .jumbotron h1 {
+//   font-weight: 500;
+// }
+
+.dashboard-timer h1 {
+  color: white;
+  font-weight: 500;
+  font-size: 15vw;
+  text-align: center;
+  background-color: $primary;
+  border-radius: 20px;
+  vertical-align: middle;
+}
+
+.dashboard-status-text {
+  font-weight: 500;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.lead {
+  text-align: center;
+}
+
+/* change the background color */
+.navbar-custom {
+  background-color: $primary;
+}
+
+/* change the brand and text color */
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+  color: $secondary;
+}
+
+/* change the link color */
+.navbar-custom .navbar-nav .nav-link {
+  color: $secondary;
+}
+
+/* change the color of active or hovered links */
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:focus .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+  color: white;
+}
+
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
