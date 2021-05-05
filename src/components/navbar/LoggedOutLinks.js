@@ -5,14 +5,14 @@ const LoggedOutLinks = () => {
   let loginButton = (
     <NavLink to="/login">
       <li className="nav-item">
-        <a className="nav-link">Login</a>
+        <span className="nav-link">Login</span>
       </li>
     </NavLink>
   );
   let signUpButton = (
     <NavLink to="/signup">
       <li className="nav-item">
-        <a className="nav-link">Register</a>
+        <span className="nav-link">Register</span>
       </li>
     </NavLink>
   );

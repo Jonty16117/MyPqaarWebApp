@@ -5,14 +5,14 @@ const LoggedInLinks = () => {
   let dashboardButton = (
     <NavLink to="/dashboard">
       <li className="nav-item">
-        <a className="nav-link">Dashboard</a>
+        <span className="nav-link">Dashboard</span>
       </li>
     </NavLink>
   );
   let logoutButton = (
     <NavLink to="/">
       <li className="nav-item">
-        <a className="nav-link">Logout</a>
+        <span className="nav-link">Logout</span>
       </li>
     </NavLink>
   );

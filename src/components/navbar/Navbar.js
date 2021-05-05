@@ -8,17 +8,28 @@ const Navbar = () => {
     <>
       <nav className="navbar navbar-expand-sm navbar-custom">
         <NavLink to="/">
-          <ul className="navbar-nav mr-auto">
-            <li className="navbar-brand">
-              <img src="/logo_pqaar.png" width="30" height="30" alt=""></img>
-            </li>
-            <li className="navbar-brand">Pqaar</li>
-          </ul>
+          <span className="navbar-brand">
+            <img src="/logo_pqaar.png" width="30" height="30" alt=""></img>
+            &nbsp;&nbsp;Pqaar
+          </span>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
         </NavLink>
-        <ul className="navbar-nav ml-auto">
-          <LoggedInLinks />
-          <LoggedOutLinks />
-        </ul>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav ml-auto">
+            <LoggedInLinks />
+            <LoggedOutLinks />
+          </ul>
+        </div>
       </nav>
     </>
   );
