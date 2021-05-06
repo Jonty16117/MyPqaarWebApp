@@ -1,10 +1,8 @@
 import React from "react";
-import { Component } from 'react'
-import { connect } from "react-redux";
+import { Component } from "react";
 
 class Dashboard extends Component {
   render() {
-    console.log(this.props)
     return (
       <div>
         <div className="jumbotron jumbotron-fluid">
@@ -17,23 +15,15 @@ class Dashboard extends Component {
             <hr className="my-4"></hr>
             <p className="lead">
               Steps to conduct an auction: 1) Schedule auction, 2) Initialize
-              Auction, 3) Monitor Auction 4) Add Bonus Time(optional step) and 4)
-              Close Auction.
+              Auction, 3) Monitor Auction 4) Add Bonus Time(optional step) and
+              4) Close Auction.
             </p>
-            <p>
-  
-            </p>
+            <p></p>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    auth: state.auth.testData
-  }
-}
-
-export default connect(mapStateToProps)(Dashboard);
+export default Dashboard;

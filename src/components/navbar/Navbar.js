@@ -1,14 +1,14 @@
 import React from "react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
 import LoggedInLinks from "./LoggedInLinks";
 import LoggedOutLinks from "./LoggedOutLinks";
+// import { useSelector } from "react-redux";
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
-
   const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
-
   return (
     <>
       <nav className="navbar navbar-dark navbar-expand-md navbar-custom">
@@ -35,8 +35,7 @@ const Navbar = () => {
           id="navbarsExample09"
         >
           <ul className="navbar-nav ml-auto">
-            <LoggedInLinks />
-            <LoggedOutLinks />
+            {props.isLoggedIn ? <LoggedInLinks /> : <LoggedOutLinks />}
           </ul>
         </div>
       </nav>
@@ -44,4 +43,9 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+function mapStateToProps(state) {
+  return { isLoggedIn: state.auth.isLoggedIn };
+} 
+
+export default connect(mapStateToProps)(Navbar);
+// export default Navbar;

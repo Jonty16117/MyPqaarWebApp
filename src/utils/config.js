@@ -1,4 +1,8 @@
-const firestoreConfig = {
+import firebase from "firebase/app";
+import 'firebase/firestore';
+import 'firebase/auth';
+
+const config = {
   apiKey: "AIzaSyB9FlRAzdyG9CaxekPMHL7uFdp1LloPjqs",
   authDomain: "pqaar-1841d.firebaseapp.com",
   databaseURL: "https://pqaar-1841d-default-rtdb.firebaseio.com",
@@ -9,10 +13,13 @@ const firestoreConfig = {
   measurementId: "G-8D6G8E5HPQ",
 };
 
-export const reduxFirebaseConfig = {
-  userProfile: "users",
-  useFirestoreForProfile: true,
-  enableLogging: false,
-};
+firebase.initializeApp(config);
+firebase.firestore().settings({timestampsInSnapshots: true});
 
-export { firestoreConfig, reduxFirebaseConfig };
+// export const reduxFirebaseConfig = {
+//   userProfile: "users",
+//   useFirestoreForProfile: true,
+//   enableLogging: false,
+// };
+
+export default firebase;
