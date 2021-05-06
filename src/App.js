@@ -2,6 +2,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
 import Homepage from "./components/homepage/Homepage";
 import Dashboard from "./components/dashboard/Dashboard";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
 
 export default function App() {
   return (
@@ -10,12 +12,8 @@ export default function App() {
         <Navbar />
         <Switch>
           <Route path="/" exact component={Homepage}></Route>
-          <Route path="/login">
-            <h1>Login</h1>
-          </Route>
-          <Route path="/signup">
-            <h1>Register</h1>
-          </Route>
+          <Route path="/login" exact component={Login}></Route>
+          <Route path="/register" exact component={Register}></Route>
           <Route path="/dashboard" exact component={Dashboard}></Route>
         </Switch>
       </BrowserRouter>

@@ -10,7 +10,7 @@ const LoggedOutLinks = () => {
     </NavLink>
   );
   let signUpButton = (
-    <NavLink to="/signup">
+    <NavLink to="/register">
       <li className="nav-item">
         <span className="nav-link">Register</span>
       </li>
