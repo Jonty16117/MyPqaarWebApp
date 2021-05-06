@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import store from "../../redux/store";
 import { signIn } from "../../redux/actions/signIn";
-// import { NavLink } from "react-router-dom";
-// import Dashboard from "../dashboard/Dashboard";
+import { resetPassword } from "../../redux/actions/resetPassword";
 
 class Login extends Component {
   constructor(props) {
@@ -10,8 +10,21 @@ class Login extends Component {
     this.state = {
       userId: "",
       password: "",
-      isLoggedIn: null
+      isLoggedIn: null,
+      sentPasswordResetEmail: null,
     };
+
+    store.subscribe(() => {
+      this.setState({
+        sentPasswordResetEmail: store.getState().auth.sentResetMail,
+      });
+    });
+
+    store.subscribe(() => {
+      this.setState({
+        isLoggedIn: store.getState().auth.isLoggedIn,
+      });
+    });
   }
 
   handleUserIdChange = (e) => {
@@ -30,10 +43,27 @@ class Login extends Component {
     const password = this.state.password;
     const cred = userId + " " + password;
     console.log("cred = ", cred);
-    const credentials = { userId, password };
-    this.props.signIn(credentials);
-    this.setState({isLoggedIn: this.props.isLoggedIn})
-    console.log("class state isLoggedIn: ", this.state.isLoggedIn)
+    if (userId.length === 0 || password.length === 0) {
+      this.setState({ isLoggedIn: false });
+      // this.setState({ isLoggedIn: true });
+    } else {
+      const credentials = { userId, password };
+      this.props.signIn(credentials);
+      this.setState({ isLoggedIn: this.props.isLoggedIn });
+      console.log("class state isLoggedIn: ", this.state.isLoggedIn);
+    }
+  };
+
+  requestPasswordReset = (e) => {
+    e.preventDefault();
+    const userId = this.state.userId;
+    if (userId.length === 0) {
+      this.setState({ sentPasswordResetEmail: false });
+    } else {
+      const credentials = { email: userId };
+      console.log(credentials.email);
+      this.props.resetPassword(credentials);
+    }
   };
 
   loginSuccessAlert() {
@@ -64,15 +94,33 @@ class Login extends Component {
     );
   }
 
-  showAlertDiv() {
-    switch (this.state.isLoggedIn) {
-      case true:
-        return this.loginSuccessAlert();
-      case false:
-        return this.loginFailedAlert();
-      default:
-        return null;
-    }
+  resetPasswordSuccessAlert() {
+    return (
+      <div
+        className="alert alert-success"
+        role="alert"
+        style={{
+          marginTop: "10px",
+        }}
+      >
+        Password reset email sent successfully, please check your email!
+      </div>
+    );
+  }
+
+  resetPasswordFailedAlert() {
+    return (
+      <div
+        className="alert alert-danger"
+        role="alert"
+        style={{
+          marginTop: "10px",
+        }}
+      >
+        Failed to send reset password mail, please enter correct email and check
+        your internet connectivity!
+      </div>
+    );
   }
 
   render() {
@@ -108,14 +156,34 @@ class Login extends Component {
                 />
               </div>
               <button
+                onClick={this.requestPasswordReset}
+                type="button"
+                className="btn btn-link btn-sm"
+              >
+                Forgot password?
+              </button>
+              <button
                 onClick={this.requestSignIn}
                 type="submit"
                 className="btn btn-primary btn-block"
+                style={{
+                  marginTop: "10px",
+                }}
               >
                 Submit
               </button>
-              {this.showAlertDiv()}
-              {(this.state.isLoggedIn === true) ? this.props.history.push("/dashboard"): null}
+              {/* {this.showAlertDiv()} */}
+              {this.state.sentPasswordResetEmail === true
+                ? this.resetPasswordSuccessAlert()
+                : null}
+              {this.state.sentPasswordResetEmail === false
+                ? this.resetPasswordFailedAlert()
+                : null}
+              {this.state.isLoggedIn === true ? this.loginSuccessAlert() : null}
+              {this.state.isLoggedIn === false ? this.loginFailedAlert() : null}
+              {this.state.isLoggedIn === true
+                ? this.props.history.push("/dashboard")
+                : null}
             </form>
           </div>
         </div>
@@ -124,16 +192,11 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isLoggedIn: state.auth.isLoggedIn,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     signIn: (credentials) => dispatch(signIn(credentials)),
+    resetPassword: (credentials) => dispatch(resetPassword(credentials)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);

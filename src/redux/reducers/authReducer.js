@@ -1,5 +1,7 @@
 const initState = {
   isLoggedIn: null,
+  sentRegisterRequest: null,
+  sentResetMail: null
 };
 
 const authReducer = (state = initState, action) => {
@@ -21,6 +23,30 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         isLoggedIn: false,
+      };
+    case "REGISTER_SUCCESSFUL":
+      console.log("REGISTER_SUCCESSFUL");
+      return {
+        ...state,
+        sentRegisterRequest: true,
+      };
+    case "REGISTER_FAILED":
+      console.log("REGISTER_FAILED");
+      return {
+        ...state,
+        sentRegisterRequest: false,
+      };
+      case "SENT_RESET_MAIL":
+      console.log("SENT_RESET_MAIL");
+      return {
+        ...state,
+        sentResetMail: true,
+      };
+      case "FAILED_TO_SENT_RESET_MAIL":
+      console.log("FAILED_TO_SENT_RESET_MAIL");
+      return {
+        ...state,
+        sentResetMail: false,
       };
     default:
       console.log("returning default state: ", state);
