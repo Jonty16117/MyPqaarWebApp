@@ -3,7 +3,13 @@ import React from "react";
 const Footer = () => {
   return (
     <div className="d-flex flex-column">
-      <footer className="footer">
+      <footer
+        className="footer"
+        style={{
+          bottom: "0",
+          width: '100%',
+        }}
+      >
         <a href="https://pqaar.herokuapp.com">
           <p>Pqaar</p>
         </a>
