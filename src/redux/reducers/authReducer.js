@@ -1,25 +1,25 @@
 const initState = {
   isLoggedIn: null,
   sentRegisterRequest: null,
-  sentResetMail: null
+  sentResetMail: null,
 };
 
 const authReducer = (state = initState, action) => {
   switch (action.type) {
     case "LOGIN_SUCCESS":
-      console.log("login success");
+      console.log("LOGIN_SUCCESS");
       return {
         ...state,
         isLoggedIn: true,
       };
     case "LOGIN_FAILED":
-      console.log("login failed");
+      console.log("LOGIN_FAILED");
       return {
         ...state,
         isLoggedIn: false,
       };
     case "LOGOUT":
-      console.log("logged out");
+      console.log("LOGGED_OUT");
       return {
         ...state,
         isLoggedIn: false,
@@ -36,13 +36,13 @@ const authReducer = (state = initState, action) => {
         ...state,
         sentRegisterRequest: false,
       };
-      case "SENT_RESET_MAIL":
+    case "SENT_RESET_MAIL":
       console.log("SENT_RESET_MAIL");
       return {
         ...state,
         sentResetMail: true,
       };
-      case "FAILED_TO_SENT_RESET_MAIL":
+    case "FAILED_TO_SENT_RESET_MAIL":
       console.log("FAILED_TO_SENT_RESET_MAIL");
       return {
         ...state,

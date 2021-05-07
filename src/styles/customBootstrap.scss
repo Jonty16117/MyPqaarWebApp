@@ -64,7 +64,7 @@ body {
   color: $primary;
   font-weight: 800;
   margin-top: 50px;
-  font-size: 5vw;
+  font-size: xx-large;
   text-align: center;
   vertical-align: middle;
 }
@@ -73,14 +73,6 @@ body {
   color: $primary;
   font-weight: 800;
   font-size: large;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.bgimage h2 {
-  color: $primary;
-  font-weight: 800;
-  font-size: 4vw;
   text-align: center;
   vertical-align: middle;
 }
@@ -96,7 +88,8 @@ body {
 }
 
 .jumbotron {
-  background-color: rgb(205, 192, 223);
+  // background-color: rgb(205, 192, 223);
+  background-color: white;
   padding: 5px;
 }
 
@@ -105,11 +98,12 @@ body {
 // }
 
 .dashboard-timer h1 {
-  color: white;
+  color: $primary;
   font-weight: 500;
   font-size: 15vw;
   text-align: center;
-  background-color: $primary;
+  // background-color: $primary;
+  background-color: white;
   border-radius: 20px;
   vertical-align: middle;
 }

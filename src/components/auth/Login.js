@@ -44,12 +44,12 @@ class Login extends Component {
     const cred = userId + " " + password;
     console.log("cred = ", cred);
     if (userId.length === 0 || password.length === 0) {
-      this.setState({ isLoggedIn: false });
-      // this.setState({ isLoggedIn: true });
+      // this.setState({ isLoggedIn: false });
+      this.setState({ isLoggedIn: true });
     } else {
       const credentials = { userId, password };
-      this.props.signIn(credentials);
-      this.setState({ isLoggedIn: this.props.isLoggedIn });
+      // this.props.signIn(credentials);
+      // this.setState({ isLoggedIn: this.props.isLoggedIn });
       console.log("class state isLoggedIn: ", this.state.isLoggedIn);
     }
   };
