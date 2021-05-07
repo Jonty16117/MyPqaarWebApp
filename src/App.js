@@ -4,6 +4,7 @@ import Homepage from "./components/homepage/Homepage";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Dashboard from "./components/dashboard/Dashboard";
+import AddRoutes from "./components/dashboard/ScheduleAuction/AddRoutes";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="/login" exact component={Login}></Route>
           <Route path="/register" exact component={Register}></Route>
           <Route path="/dashboard" exact component={Dashboard}></Route>
+          <Route path="/addroutes" exact component={AddRoutes}></Route>
         </Switch>
       </BrowserRouter>
     </>

@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import ic_schedule from "../../../assets/ic_schedule.jpg";
 import styles from "../../../styles/ScheduleAuction.module.css";
+import { NavLink } from "react-router-dom";
 
 export class ScheduleAuction extends Component {
   render() {
     return (
       <>
-        <a href="#">
+        <NavLink to="/addroutes">
           <div className="card mb-3" className={styles.card}>
             <div className="text-center">
               <img
@@ -25,7 +26,7 @@ export class ScheduleAuction extends Component {
               </p>
             </div>
           </div>
-        </a>
+        </NavLink>
       </>
     );
   }

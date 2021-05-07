@@ -1,0 +1,76 @@
+.lr_container {
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 10px;
+    padding: 10px;
+    border: solid #2b155bff;
+    border-width: 1px;
+    border-radius: 5px;
+    text-align: center;
+    display: block;
+    -webkit-box-shadow: 5px 2px 10px rgba(43, 21, 91, 0.562);
+    -moz-box-shadow: 5px 2px 10px rgba(43, 21, 91, 0.562);
+    box-shadow: 5px 2px 10px rgba(43, 21, 91, 0.562);
+    transition: transform 0.2s;
+  }
+  
+  .lr_container:hover {
+    transform: scale(1.03);
+    transition-duration: 0s;
+    transition-timing-function: ease;
+    background-color: #2b155bff;
+    border: solid #2b155bff;
+    border-radius: 8px;
+    border-width: 1px;
+  }
+  
+  .lr_container p {
+    font-size: small;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0px;
+  }
+  
+  .lrSubItem {
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 10px;
+    padding: 10px;
+    border: solid #2b155bff;
+    border-width: 1px;
+    border-radius: 5px;
+    text-align: center;
+    display: block;
+  }
+  
+  .lrSubItem p {
+    font-size: small;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0px;
+  }
+  
+  a:link {
+    color: #2b155bff;
+    text-decoration: none;
+  }
+  
+  a:visited {
+    color: #2b155bff;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: white;
+    text-decoration: none;
+  }
+  
+  a:active {
+    color: white;
+    text-decoration: none;
+  }
+  
