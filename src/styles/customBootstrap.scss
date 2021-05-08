@@ -71,7 +71,7 @@ body {
 
 .bgimage {
   width: 100%;
-  height: 500px;
+  height: calc(100vh - 100px);
   background: url("../assets/wallpaper.jpg");
   background-repeat: no-repeat;
   background-position: center;
@@ -98,12 +98,14 @@ body {
 
 .footer {
   background-color: $primary;
+  height: 50px;
+  font-size: 10px;
 }
 
 .footer p {
   color: $secondary;
   text-align: center;
-  margin-bottom: 1px;
+  margin-bottom: 0px;
 }
 
 .jumbotron {
@@ -146,6 +148,13 @@ body {
 /* change the background color */
 .navbar-custom {
   background-color: $primary;
+  box-shadow: 5px 2px 10px rgba(0, 0, 0, 0);
+  transition: box-shadow 200ms linear;
+}
+
+.navbar-custom:hover {
+  background-color: $primary;
+  box-shadow: 0px 10px 20px $primary;
 }
 
 /* change the brand and text color */
