@@ -31,6 +31,35 @@ function lrSubItem(destination, trucksNeeded) {
   );
 }
 
+function getTotalTrucks(lr) {
+  let trucksCount = 0;
+  for (let [key, value] of Object.entries(lr)) {
+    if (key === "Status" || key === "Timestamp" || key === "Mandi") {
+      continue;
+    }
+    trucksCount += value;
+  }
+  return trucksCount;
+}
+
+function isARoute(key) {
+  if (key === "Status" || key === "Timestamp" || key === "Mandi") {
+    return false;
+  }
+  return true;
+}
+
+function getDestinations(lrItem) {
+  let desList = [];
+  Object.keys(lrItem).map(function (key, index) {
+    if (isARoute(key)) {
+      desList.push(key);
+    }
+  });
+  desList.sort();
+  return desList;
+}
+
 export default function LiveRoutesListItem(props) {
   return (
     <>
@@ -43,24 +72,31 @@ export default function LiveRoutesListItem(props) {
                 className={styles.lr_container}
               >
                 <p>Mandi:&#8287;</p>
-                <p style={{ fontWeight: "bold" }}>Abohar</p>
+                <p style={{ fontWeight: "bold" }}>{props.prlItem.Mandi}</p>
                 <p>&#8287;| Total Mandi Routes:&#8287;</p>
-                <p style={{ fontWeight: "bold" }}>34</p>
+                <p style={{ fontWeight: "bold" }}>
+                  {Object.keys(props.prlItem).length - 3}
+                </p>
                 <p>&#8287;| Total Mandi Truck Requirement :&#8287;</p>
-                <p style={{ fontWeight: "bold" }}>69</p>
+                <p style={{ fontWeight: "bold" }}>
+                  {getTotalTrucks(props.prlItem)}
+                </p>
               </div>
             </a>
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="1">
             <>
+              {getDestinations(props.prlItem).map((des) => {
+                return lrSubItem(des, props.prlItem[des]);
+              })}
               {/* Test data */}
+              {/* {lrSubItem("FCI", "69")}
               {lrSubItem("FCI", "69")}
               {lrSubItem("FCI", "69")}
               {lrSubItem("FCI", "69")}
               {lrSubItem("FCI", "69")}
               {lrSubItem("FCI", "69")}
-              {lrSubItem("FCI", "69")}
-              {lrSubItem("FCI", "69")}
+              {lrSubItem("FCI", "69")} */}
             </>
           </Accordion.Collapse>
         </div>

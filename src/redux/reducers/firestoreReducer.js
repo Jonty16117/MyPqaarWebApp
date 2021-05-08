@@ -17,6 +17,13 @@ const firestoreReducer = (state = initState, action) => {
         ...state,
         prlIsLoading: false,
       };
+    case "STORE_PRL":
+      console.log("STORE_PRL");
+      console.log("action.payload.prl: ", action.payload)
+      return {
+        ...state,
+        prl: action.payload,
+      };
     default:
       console.log("returning default firestore state: ", state);
       return {

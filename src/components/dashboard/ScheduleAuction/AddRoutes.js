@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import styles from "../../../styles/AddRoutes.module.css";
 import { Card, Button, Spinner } from "react-bootstrap";
-import store from "../../../redux/store.js";
+import store from "../../../redux/store";
 import { fetchPRL } from "../../../redux/actions/fetchPRL";
 import { connect } from "react-redux";
 import ProposedRouteListItem from "./ProposedRouteListItem";
 import LiveRoutesListItem from "./LiveRoutesListItem";
 
-export class AddRoutes extends Component {
+class AddRoutes extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,19 +17,26 @@ export class AddRoutes extends Component {
     this.props.fetchPRL();
     store.subscribe(() => {
       this.setState({
-        prlIsLoading: store.getState().firebase.prlIsLoading,
-        prl: store.getState().firebase.prlIsLoading,
+        prlIsLoading: store.getState().firestore.prlIsLoading,
       });
+    });
+    store.subscribe(() => {
+      this.setState({
+        prl: store.getState().firestore.prl,
+      });
+      {
+        console.log("subscribed prl ", store.getState().firestore.prl);
+      }
     });
   }
 
-  prlCount = 6;
+  // prlCount = 6;
   numbers = [1, 2, 3, 4, 5];
   //creating pr list
-  prlList = this.numbers.map((number) => (
-    <ProposedRouteListItem number={number} />
-  ));
-  lrList = this.numbers.map((number) => <LiveRoutesListItem number={number} />);
+  // prlList = this.state.prl.map((prlItem) => (
+  //   <ProposedRouteListItem prlItem={prlItem} />
+  // ));
+  // lrList = this.numbers.map((number) => <LiveRoutesListItem number={number} />);
 
   render() {
     return (
@@ -40,6 +47,7 @@ export class AddRoutes extends Component {
               <Card.Header style={{ fontWeight: "bold" }}>
                 Proposed Mandi Routes List
               </Card.Header>
+
               {this.state.prlIsLoading ? (
                 <Spinner
                   animation="border"
@@ -50,7 +58,14 @@ export class AddRoutes extends Component {
                 </Spinner>
               ) : (
                 <Card.Body>
-                  {this.prlList}
+                  {this.state.prl.map((prlItem) => {
+                    return (
+                      <ProposedRouteListItem
+                        prlItem={prlItem}
+                        key={prlItem.Mandi}
+                      />
+                    );
+                  })}
                   <Button variant="primary" style={{ marginTop: "20px" }}>
                     Copy Default To Live Routes List
                   </Button>
@@ -79,7 +94,14 @@ export class AddRoutes extends Component {
                 </Spinner>
               ) : (
                 <Card.Body>
-                  {this.lrList}
+                  {this.state.prl.map((prlItem) => {
+                    return (
+                      <LiveRoutesListItem
+                        prlItem={prlItem}
+                        key={prlItem.Mandi}
+                      />
+                    );
+                  })}
                   <Button variant="primary" style={{ marginTop: "20px" }}>
                     Upload Live Routes List
                   </Button>
@@ -98,6 +120,13 @@ export class AddRoutes extends Component {
     );
   }
 }
+
+// const mapStateToProps = (state) => {
+//   return {
+//     prlIsLoading: state.firestore.prlIsLoading,
+//     prl: state.firestore.prl,
+//   };
+// };
 
 const mapDispatchToProps = (dispatch) => {
   return {
