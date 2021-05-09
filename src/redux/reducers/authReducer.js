@@ -7,49 +7,41 @@ const initState = {
 const authReducer = (state = initState, action) => {
   switch (action.type) {
     case "LOGIN_SUCCESS":
-      console.log("LOGIN_SUCCESS");
       return {
         ...state,
         isLoggedIn: true,
       };
     case "LOGIN_FAILED":
-      console.log("LOGIN_FAILED");
       return {
         ...state,
         isLoggedIn: false,
       };
     case "LOGOUT":
-      console.log("LOGGED_OUT");
       return {
         ...state,
         isLoggedIn: false,
       };
     case "REGISTER_SUCCESSFUL":
-      console.log("REGISTER_SUCCESSFUL");
       return {
         ...state,
         sentRegisterRequest: true,
       };
     case "REGISTER_FAILED":
-      console.log("REGISTER_FAILED");
       return {
         ...state,
         sentRegisterRequest: false,
       };
     case "SENT_RESET_MAIL":
-      console.log("SENT_RESET_MAIL");
       return {
         ...state,
         sentResetMail: true,
       };
     case "FAILED_TO_SENT_RESET_MAIL":
-      console.log("FAILED_TO_SENT_RESET_MAIL");
       return {
         ...state,
         sentResetMail: false,
       };
     default:
-      console.log("returning default state: ", state);
       return {
         ...state,
       };

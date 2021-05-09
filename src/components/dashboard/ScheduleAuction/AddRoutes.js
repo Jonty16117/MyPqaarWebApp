@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useRef } from "react";
 import styles from "../../../styles/AddRoutes.module.css";
 import { Card, Button, Spinner } from "react-bootstrap";
 import store from "../../../redux/store";
@@ -7,36 +7,101 @@ import { connect } from "react-redux";
 import ProposedRouteListItem from "./ProposedRouteListItem";
 import LiveRoutesListItem from "./LiveRoutesListItem";
 
+function isARoute(key) {
+  if (key === "Status" || key === "Timestamp" || key === "Mandi") {
+    return false;
+  }
+  return true;
+}
+
 class AddRoutes extends Component {
   constructor(props) {
     super(props);
     this.state = {
       prlIsLoading: true,
       prl: [],
+      lr: [],
+      lRLDataErrorAlert: false,
     };
     this.props.fetchPRL();
     store.subscribe(() => {
-      this.setState({
-        prlIsLoading: store.getState().firestore.prlIsLoading,
-      });
-    });
-    store.subscribe(() => {
-      this.setState({
-        prl: store.getState().firestore.prl,
-      });
-      {
-        console.log("subscribed prl ", store.getState().firestore.prl);
-      }
+      this.setState(
+        {
+          prlIsLoading: store.getState().firestore.prlIsLoading,
+          prl: store.getState().firestore.prl,
+        },
+        () => {
+          let newLR = [];
+          store.getState().firestore.prl.forEach((item) => {
+            let mandi = { Mandi: item.Mandi, Routes: [] };
+            for (const property in item) {
+              if (isARoute(property)) {
+                mandi.Routes.push({
+                  Des: property,
+                  Req: item[property],
+                  Rate: 0,
+                });
+                mandi.Routes.sort((a, b) =>
+                  a.Des > b.Des ? 1 : b.Des > a.Des ? -1 : 0
+                );
+              }
+            }
+            newLR.push(mandi);
+          });
+          this.setState({
+            lr: newLR,
+            lRLDataErrorAlert: false,
+          });
+        }
+      );
     });
   }
 
-  // prlCount = 6;
-  numbers = [1, 2, 3, 4, 5];
-  //creating pr list
-  // prlList = this.state.prl.map((prlItem) => (
-  //   <ProposedRouteListItem prlItem={prlItem} />
-  // ));
-  // lrList = this.numbers.map((number) => <LiveRoutesListItem number={number} />);
+  LRLDataErrorAlert() {
+    return (
+      <div
+        className="alert alert-danger"
+        role="alert"
+        style={{
+          margin: "-5px 10px 10px",
+        }}
+      >
+        Please fill all the entries correctly!
+      </div>
+    );
+  }
+
+  validateLRLData() {
+    let data = store.getState().localData.draftLRL;
+    let isValid = true
+    if (data.length === 0) {
+      isValid = false;
+    }
+    data.forEach((lrItem) => {
+      lrItem.Routes.forEach((route) => {
+        if (
+          isNaN(route.Req) ||
+          isNaN(route.Rate) ||
+          !Number.isInteger(route.Req) ||
+          !Number.isInteger(route.Rate) ||
+          route.Req <= 0 ||
+          route.Rate <= 0
+        ) {
+          isValid = false;
+        }
+      });
+    });
+    return isValid;
+  }
+
+  handleClickLR = (e) => {
+    if (this.validateLRLData()) {
+      this.setState({ lRLDataErrorAlert: false });
+    } else {
+      this.setState({ lRLDataErrorAlert: true });
+      //upload to firestore
+    }
+  };
 
   render() {
     return (
@@ -58,7 +123,7 @@ class AddRoutes extends Component {
                 </Spinner>
               ) : (
                 <Card.Body>
-                  {this.state.prl.map((prlItem) => {
+                  {this.state.prl.map((prlItem, index) => {
                     return (
                       <ProposedRouteListItem
                         prlItem={prlItem}
@@ -94,19 +159,27 @@ class AddRoutes extends Component {
                 </Spinner>
               ) : (
                 <Card.Body>
-                  {this.state.prl.map((prlItem) => {
+                  {this.state.lr.map((lrItem, index) => {
                     return (
                       <LiveRoutesListItem
-                        prlItem={prlItem}
-                        key={prlItem.Mandi}
+                        lrItem={lrItem}
+                        storeIndex={index}
+                        key={lrItem.Mandi}
                       />
                     );
                   })}
-                  <Button variant="primary" style={{ marginTop: "20px" }}>
+                  <Button
+                    variant="primary"
+                    style={{ marginTop: "20px", marginBottom: "0px" }}
+                    onClick={this.handleClickLR}
+                  >
                     Upload Live Routes List
                   </Button>
                 </Card.Body>
               )}
+              {this.state.lRLDataErrorAlert === true
+                ? this.LRLDataErrorAlert()
+                : null}
               <Card.Footer className="text-muted">
                 <p style={{ fontSize: "10px", margin: "0" }}>
                   This is the list after editing will can be uploaded based on
@@ -121,13 +194,6 @@ class AddRoutes extends Component {
   }
 }
 
-// const mapStateToProps = (state) => {
-//   return {
-//     prlIsLoading: state.firestore.prlIsLoading,
-//     prl: state.firestore.prl,
-//   };
-// };
-
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchPRL: () => dispatch(fetchPRL()),
@@ -135,38 +201,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(null, mapDispatchToProps)(AddRoutes);
-
-{
-  /* <Card.Body>
-                <Card.Title>Special title treatment</Card.Title>
-                <Card.Text>
-                  With supporting text below as a natural lead-in to additional
-                  content.
-                </Card.Text>
-                <Button variant="primary">Go somewhere</Button>
-              </Card.Body> */
-}
-
-{
-  /* <div className="container">
-<div className="row">
-  <div className="col-sm" style={{ backgroundColor: "blue" }}>
-    {this.prlList}
-  </div>
-  <div className="col-sm">{this.lrList}</div>
-</div>
-</div> */
-}
-
-{
-  /* <div className="container-fluid">
-        <div className="row">
-          <div className="col-xs-6" style={{ backgroundColor: "blue" }}>
-            <div className="container">content</div>
-          </div>
-          <div className="col-xs-6"style={{ backgroundColor: "red" }} >
-            <div className="container">content</div>
-          </div>
-        </div>
-      </div> */
-}

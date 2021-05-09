@@ -8,7 +8,6 @@ export const fetchPRL = () => {
       let prl = [];
       querySnapshot.forEach((doc) => {
         if (doc.id !== "DummyDoc") {
-          // console.log(docName)
           let docData = doc.data();
           let keys = Object.keys(docData);
           let liveMandiRoutes = docData[keys[0]];
@@ -21,12 +20,8 @@ export const fetchPRL = () => {
           prl.push(liveMandiRoutes);
         }
       });
-      console.log("fetched prl: ", prl);
       dispatch({ type: "STORE_PRL", payload: prl });
       dispatch({ type: "LOADED_PRL" });
     });
   };
 };
-
-// dispatch({ type: "LOADING_PRL" });
-//       console.log("Current data: ", doc.data());
