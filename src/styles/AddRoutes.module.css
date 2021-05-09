@@ -14,3 +14,25 @@
 .row.vertical_divider div[class^="col-"]:last-child {
   border-right: none;
 }
+
+.date_time_picker {
+  margin-bottom: 50px;
+}
+
+.dashboardLink:link {
+  color: #277527;
+}
+
+.dashboardLink:visited {
+  color: #277527;
+}
+
+.dashboardLink:hover {
+  color: #1c4b1c;
+  text-decoration: underline;
+}
+
+.dashboardLink:active {
+  color: #277527;
+  text-decoration: underline;
+}

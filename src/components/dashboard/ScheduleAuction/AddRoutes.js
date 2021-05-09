@@ -1,11 +1,14 @@
-import React, { Component, useRef } from "react";
+import React, { Component, useState } from "react";
 import styles from "../../../styles/AddRoutes.module.css";
-import { Card, Button, Spinner } from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { Card, Button, Spinner, Modal } from "react-bootstrap";
 import store from "../../../redux/store";
 import { fetchPRL } from "../../../redux/actions/fetchPRL";
 import { connect } from "react-redux";
 import ProposedRouteListItem from "./ProposedRouteListItem";
 import LiveRoutesListItem from "./LiveRoutesListItem";
+import { NavLink } from "react-router-dom";
 
 function isARoute(key) {
   if (key === "Status" || key === "Timestamp" || key === "Mandi") {
@@ -22,6 +25,9 @@ class AddRoutes extends Component {
       prl: [],
       lr: [],
       lRLDataErrorAlert: false,
+      auctionTime: new Date(),
+      showModal: false,
+      scheduledFlag: false,
     };
     this.props.fetchPRL();
     store.subscribe(() => {
@@ -57,6 +63,18 @@ class AddRoutes extends Component {
     });
   }
 
+  setauctionTime(date) {
+    this.setState({ auctionTime: date });
+  }
+
+  toggleHideModal = () => {
+    this.setState({ showModal: false });
+  };
+
+  toggleShowModal = () => {
+    this.setState({ showModal: true });
+  };
+
   LRLDataErrorAlert() {
     return (
       <div
@@ -71,9 +89,30 @@ class AddRoutes extends Component {
     );
   }
 
+  ScheduledAuctionFlag() {
+    return (
+      <div
+        className="alert alert-success"
+        role="alert"
+        style={{
+          margin: "20px 10px 5px",
+        }}
+      >
+        Auction is scheduled at {this.state.auctionTime.toString()}{" "}
+        successfully! click&nbsp;
+        <NavLink to="/dashboard">
+          <a href="#" className={styles.dashboardLink}>
+            here
+          </a>
+        </NavLink>
+        &nbsp;to go the dashboard.
+      </div>
+    );
+  }
+
   validateLRLData() {
     let data = store.getState().localData.draftLRL;
-    let isValid = true
+    let isValid = true;
     if (data.length === 0) {
       isValid = false;
     }
@@ -95,12 +134,19 @@ class AddRoutes extends Component {
   }
 
   handleClickLR = (e) => {
+    this.toggleShowModal();
     if (this.validateLRLData()) {
       this.setState({ lRLDataErrorAlert: false });
     } else {
+      this.toggleShowModal();
       this.setState({ lRLDataErrorAlert: true });
-      //upload to firestore
     }
+  };
+
+  handleClickSetScheduleAuction = (e) => {
+    console.log(this.state.auctionTime.getTime());
+    this.setState({ scheduledFlag: true });
+    //upload to live routes list and schedule time to firestore
   };
 
   render() {
@@ -173,8 +219,56 @@ class AddRoutes extends Component {
                     style={{ marginTop: "20px", marginBottom: "0px" }}
                     onClick={this.handleClickLR}
                   >
-                    Upload Live Routes List
+                    Proceed
                   </Button>
+                  <Modal
+                    show={this.state.showModal}
+                    onHide={this.toggleHideModal}
+                    backdrop="static"
+                    keyboard={false}
+                    size="lg"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                  >
+                    <Modal.Header closeButton>
+                      <Modal.Title>
+                        Select date and time for the auction
+                      </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <div
+                        style={{
+                          textAlign: "center",
+                        }}
+                      >
+                        <DatePicker
+                          timeInputLabel="Time:"
+                          dateFormat="MM/dd/yyyy h:mm aa"
+                          showTimeInput
+                          selected={this.state.auctionTime}
+                          minDate={new Date()}
+                          onChange={(date) => this.setauctionTime(date)}
+                        />
+                      </div>
+                      {this.state.scheduledFlag === true
+                        ? this.ScheduledAuctionFlag()
+                        : null}
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button
+                        variant="secondary"
+                        onClick={this.toggleHideModal}
+                      >
+                        Back
+                      </Button>
+                      <Button
+                        variant="primary"
+                        onClick={this.handleClickSetScheduleAuction}
+                      >
+                        Schedule Auction
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
                 </Card.Body>
               )}
               {this.state.lRLDataErrorAlert === true
