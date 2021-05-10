@@ -5,6 +5,7 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Dashboard from "./components/dashboard/Dashboard";
 import AddRoutes from "./components/dashboard/ScheduleAuction/AddRoutes";
+import InitializeAuction from "./components/dashboard/InitializeAuction/InitializeAuction";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="/register" exact component={Register}></Route>
           <Route path="/dashboard" exact component={Dashboard}></Route>
           <Route path="/addroutes" exact component={AddRoutes}></Route>
+          <Route path="/initializeAuction" exact component={InitializeAuction}></Route>
         </Switch>
       </BrowserRouter>
     </>

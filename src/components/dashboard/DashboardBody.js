@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "../../styles/DashboardBody.module.css";
-import ScheduleAuction from "./ScheduleAuction/ScheduleAuction";
+import ScheduleAuctionCard from "./ScheduleAuction/ScheduleAuctionCard";
+import InitializeAuctionCard from "./InitializeAuction/InitializeAuctionCard";
 
 class DashboardBody extends Component {
   render() {
@@ -13,7 +14,8 @@ class DashboardBody extends Component {
             marginBottom: "0px",
           }}
         >
-          <ScheduleAuction />
+          <ScheduleAuctionCard />
+          <InitializeAuctionCard />
         </div>
       </div>
     );
@@ -21,9 +23,3 @@ class DashboardBody extends Component {
 }
 
 export default DashboardBody;
-
-// function result(a, b, c) {
-//     return a * (b + c) - (b * c)
-// }
-
-// const d = result(1, 2, 3)

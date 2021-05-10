@@ -5,12 +5,30 @@ const initState = {
   lrlIsUpLoading: false,
   lrl: [],
   aucTimingIsLoading: false,
-  aucTimings: {StartTime: -1, EndTime: -1},
-  errors: ""
+  aucTimings: { StartTime: -1, EndTime: -1 },
+  errors: "",
+
+  liveTruckDataList: new Map(),
+  isLiveTruckDataListLoading: false,
 };
 
 const firestoreReducer = (state = initState, action) => {
   switch (action.type) {
+    case "LOADING_LIVE_TRUCK_DATA_LIST":
+      return {
+        ...state,
+        isLiveTruckDataListLoading: true,
+      };
+    case "LOADED_LIVE_TRUCK_DATA_LIST":
+      return {
+        ...state,
+        isLiveTruckDataListLoading: false,
+      };
+    case "FETCHED_LIVE_TRUCK_DATA_LIST":
+      return {
+        ...state,
+        liveTruckDataList: action.payload,
+      };
     case "LOADING_PRL":
       return {
         ...state,
@@ -41,7 +59,7 @@ const firestoreReducer = (state = initState, action) => {
         ...state,
         lrlIsUpLoading: false,
       };
-      case "LRL_UPLOADING_ERROR":
+    case "LRL_UPLOADING_ERROR":
       return {
         ...state,
         error: action.payload,
@@ -66,7 +84,7 @@ const firestoreReducer = (state = initState, action) => {
         ...state,
         aucTimings: action.payload,
       };
-      case "FETCH_AUC_TIMINGS_ERROR":
+    case "FETCH_AUC_TIMINGS_ERROR":
       return {
         ...state,
         error: action.payload,

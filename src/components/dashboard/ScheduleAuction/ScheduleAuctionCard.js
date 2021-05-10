@@ -3,7 +3,7 @@ import ic_schedule from "../../../assets/ic_schedule.jpg";
 import styles from "../../../styles/ScheduleAuction.module.css";
 import { NavLink } from "react-router-dom";
 
-export class ScheduleAuction extends Component {
+export class ScheduleAuctionCard extends Component {
   render() {
     return (
       <>
@@ -32,4 +32,4 @@ export class ScheduleAuction extends Component {
   }
 }
 
-export default ScheduleAuction;
+export default ScheduleAuctionCard;

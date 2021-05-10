@@ -115,8 +115,9 @@ class Dashboard extends Component {
             <div className="dashboard-timer">{this.setDashboard()}</div>
             <hr className="my-4"></hr>
             <p className="lead">
-              Steps to conduct an auction: 1) Schedule auction, 2) Conduct
-              Auction 3) Add Bonus Time(optional step) and 4) Close Auction.
+              Steps to conduct an auction: 1) Schedule auction, 2) Initialize
+              auction 3) Conduct Auction 4) Add Bonus Time(optional step) and 5)
+              Close Auction.
             </p>
           </div>
         </div>
