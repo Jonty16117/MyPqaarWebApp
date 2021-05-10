@@ -3,6 +3,8 @@ const MANDI_ROUTES_LIST = "MandiRoutesList";
 const AUCTIONS_INFO = "AuctionsInfo";
 const LIVE_ROUTES_LIST = "LiveRoutesList";
 const LIVE_TRUCK_DATA_LIST = "LiveTruckData";
+const AUCTION_HISTORY_LIST = "auction-lists";
+const PAHUNCHS = "PahunchAdminRecords";
 
 // Documents
 const SCHEDULED_AUCTIONS = "ScheduledAuctions";
@@ -13,4 +15,6 @@ export {
   SCHEDULED_AUCTIONS,
   LIVE_ROUTES_LIST,
   LIVE_TRUCK_DATA_LIST,
+  AUCTION_HISTORY_LIST,
+  PAHUNCHS,
 };

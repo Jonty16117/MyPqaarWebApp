@@ -15,11 +15,11 @@ export const fetchLiveTruckDataList = () => {
           liveTruckDataList.set(truck.data().TruckNo, truck.data());
         }
       });
-      dispatch({ type: "LOADED_LIVE_TRUCK_DATA_LIST" });
       dispatch({
         type: "FETCHED_LIVE_TRUCK_DATA_LIST",
         payload: liveTruckDataList,
       });
+      dispatch({ type: "LOADED_LIVE_TRUCK_DATA_LIST" });
     });
   };
 };

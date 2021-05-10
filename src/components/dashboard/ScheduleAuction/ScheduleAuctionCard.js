@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ic_schedule from "../../../assets/ic_schedule.jpg";
-import styles from "../../../styles/ScheduleAuction.module.css";
+import styles from "../../../styles/ScheduleAuctionCard.module.css";
 import { NavLink } from "react-router-dom";
 
 export class ScheduleAuctionCard extends Component {
