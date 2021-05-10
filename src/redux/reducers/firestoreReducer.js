@@ -5,7 +5,7 @@ const initState = {
   lrlIsUpLoading: false,
   lrl: [],
   aucTimingIsLoading: false,
-  aucTimings: {},
+  aucTimings: {StartTime: -1, EndTime: -1},
   errors: ""
 };
 
