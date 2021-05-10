@@ -5,6 +5,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Card, Button, Spinner, Modal } from "react-bootstrap";
 import store from "../../../redux/store";
 import { fetchPRL } from "../../../redux/actions/fetchPRL";
+import { uploadLiveRoutesList } from "../../../redux/actions/uploadLiveRoutesList";
+import { updateAuctionStartTimings } from "../../../redux/actions/updateAuctionStartTimings";
 import { connect } from "react-redux";
 import ProposedRouteListItem from "./ProposedRouteListItem";
 import LiveRoutesListItem from "./LiveRoutesListItem";
@@ -28,6 +30,7 @@ class AddRoutes extends Component {
       auctionTime: new Date(),
       showModal: false,
       scheduledFlag: false,
+      uploadError: false,
     };
     this.props.fetchPRL();
     store.subscribe(() => {
@@ -89,7 +92,21 @@ class AddRoutes extends Component {
     );
   }
 
-  ScheduledAuctionFlag() {
+  uploadErrorAlert() {
+    return (
+      <div
+        className="alert alert-danger"
+        role="alert"
+        style={{
+          margin: "20px 10px 5px",
+        }}
+      >
+        Sorry, failed to upload scheduled auction data. Please try again!
+      </div>
+    );
+  }
+
+  scheduledAuctionFlag() {
     return (
       <div
         className="alert alert-success"
@@ -111,7 +128,7 @@ class AddRoutes extends Component {
   }
 
   validateLRLData() {
-    let data = store.getState().localData.draftLRL;
+    let data = store.getState().firestore.draftLRL;
     let isValid = true;
     if (data.length === 0) {
       isValid = false;
@@ -144,9 +161,27 @@ class AddRoutes extends Component {
   };
 
   handleClickSetScheduleAuction = (e) => {
+    // for testing
     console.log(this.state.auctionTime.getTime());
-    this.setState({ scheduledFlag: true });
+    // this.setState({ scheduledFlag: false });
+    // ----------------------------------------
+
     //upload to live routes list and schedule time to firestore
+    let finalLRL = store.getState().firestore.draftLRL;
+    this.props.uploadLiveRoutesList(finalLRL);
+
+    //updating auction start timing
+    let aucitonStartTime = this.state.auctionTime.getTime();
+    this.props.updateAuctionStartTimings(aucitonStartTime);
+
+    if (store.getState().firestore.errors.length !== 0) {
+      this.setState({ uploadErrorAlert: true });
+      this.setState({ scheduledFlag: false });
+    } else {
+      //update local flags
+      this.setState({ uploadError: false });
+      this.setState({ scheduledFlag: true });
+    }
   };
 
   render() {
@@ -250,8 +285,26 @@ class AddRoutes extends Component {
                           onChange={(date) => this.setauctionTime(date)}
                         />
                       </div>
+                      {store.getState().firestore.lrlIsUpLoading ? (
+                        <div
+                          style={{
+                            textAlign: "center",
+                            marginTop: "20px",
+                          }}
+                        >
+                          <Spinner
+                            animation="border"
+                            role="status"
+                          >
+                            <span className="sr-only">Loading...</span>
+                          </Spinner>
+                        </div>
+                      ) : null}
                       {this.state.scheduledFlag === true
-                        ? this.ScheduledAuctionFlag()
+                        ? this.scheduledAuctionFlag()
+                        : null}
+                      {this.state.uploadError === true
+                        ? this.uploadErrorAlert()
                         : null}
                     </Modal.Body>
                     <Modal.Footer>
@@ -291,6 +344,9 @@ class AddRoutes extends Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchPRL: () => dispatch(fetchPRL()),
+    uploadLiveRoutesList: (lrl) => dispatch(uploadLiveRoutesList(lrl)),
+    updateAuctionStartTimings: (startTimeInMilli) =>
+      dispatch(updateAuctionStartTimings(startTimeInMilli)),
   };
 };
 

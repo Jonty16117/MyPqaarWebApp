@@ -82,7 +82,7 @@ class LiveRoutesListItem extends Component {
   handleChange = (e, index) => {
     let updatedLR = this.getUpdatedLR(e.target.name, Number(e.target.value), index);
     this.setState({lrItem: updatedLR}, () => {
-      let storeLRL = store.getState().localData.draftLRL
+      let storeLRL = store.getState().firestore.draftLRL
       storeLRL[this.props.storeIndex] = updatedLR
       this.props.updateDraftLRL(storeLRL);
     });
