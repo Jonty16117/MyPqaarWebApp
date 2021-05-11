@@ -25,7 +25,7 @@ export const fetchLastAuctionListDocument = () => {
         // console.log("Fetched last auction document:", lastAuctionListDocument);
         dispatch({
           type: "FETCHED_LAST_AUCTION_LIST",
-          payload: lastAuctionListDocument,
+          payload: (new Map(Object.entries(lastAuctionListDocument))),
         });
         dispatch({ type: "LOADED_LAST_AUCTION_LIST" });
       })

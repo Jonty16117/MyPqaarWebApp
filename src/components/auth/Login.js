@@ -28,12 +28,10 @@ class Login extends Component {
   }
 
   handleUserIdChange = (e) => {
-    console.log(this.state.userId);
     this.setState({ userId: e.target.value });
   };
 
   handlePasswordChange = (e) => {
-    console.log(this.state.password);
     this.setState({ password: e.target.value });
   };
 
@@ -42,7 +40,6 @@ class Login extends Component {
     const userId = this.state.userId;
     const password = this.state.password;
     const cred = userId + " " + password;
-    console.log("cred = ", cred);
     if (userId.length === 0 || password.length === 0) {
       // this.setState({ isLoggedIn: false });
       this.setState({ isLoggedIn: true });
@@ -50,7 +47,6 @@ class Login extends Component {
       const credentials = { userId, password };
       // this.props.signIn(credentials);
       // this.setState({ isLoggedIn: this.props.isLoggedIn });
-      console.log("class state isLoggedIn: ", this.state.isLoggedIn);
     }
   };
 
@@ -61,7 +57,6 @@ class Login extends Component {
       this.setState({ sentPasswordResetEmail: false });
     } else {
       const credentials = { email: userId };
-      console.log(credentials.email);
       this.props.resetPassword(credentials);
     }
   };

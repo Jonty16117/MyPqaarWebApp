@@ -11,7 +11,7 @@ const initState = {
   liveTruckDataList: new Map(),
   fetchedLiveTruckDataList: false,
 
-  lastAucListDoc: null,
+  lastAucListDoc: new Map(),
   fetchedLastAucListDoc: false,
 
   pahunchs: new Map(),

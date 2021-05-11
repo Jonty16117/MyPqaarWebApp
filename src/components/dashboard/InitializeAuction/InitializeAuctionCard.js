@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ic_initializeAuciton from "../../../assets/ic_initializeAuction.jpg";
-import styles from "../../../styles/InitializeAuction.module.css";
+import styles from "../../../styles/InitializeAuctionCard.module.css";
 import { NavLink } from "react-router-dom";
 
 export class InitializeAuctionCard extends Component {

@@ -20,12 +20,14 @@ class InitializeAuction extends Component {
       fetchedLiveTruckDataList: false,
       fetchedLastAucListDoc: false,
       fetchedPahunchs: false,
-      separatedLastOpenClosed: false,
-      showLTDModal: false,
-      showLALModal: false,
-      lastAucListDoc: null,
       liveTruckDataList: null,
+      lastAucListDoc: null,
+      separatedLastOpenClosed: false,
+      
+      showLALModal: false,
+      showLTDModal: false,
       trucksReadyForAuction: 0,
+      lalForModalDialog: null,
     };
 
     this.props.fetchLiveTruckDataList();
@@ -33,13 +35,13 @@ class InitializeAuction extends Component {
     this.props.fetchLastAuctionListDocument();
     // this.props.separateOpenCloseLists();
     store.subscribe(() => {
-      let fetchedLiveTruckDataList = store.getState().firestore
-        .fetchedLiveTruckDataList;
-      let fetchedLastAucListDoc = store.getState().firestore
-        .fetchedLastAucListDoc;
+      let fetchedLiveTruckDataList =
+        store.getState().firestore.fetchedLiveTruckDataList;
+      let fetchedLastAucListDoc =
+        store.getState().firestore.fetchedLastAucListDoc;
       let fetchedPahunchs = store.getState().firestore.fetchedPahunchs;
-      let separatedLastOpenClosed = store.getState().firestore
-        .separatedLastOpenClosed;
+      let separatedLastOpenClosed =
+        store.getState().firestore.separatedLastOpenClosed;
       let lastAucListDoc = store.getState().firestore.lastAucListDoc;
       let liveTruckDataList = store.getState().firestore.liveTruckDataList;
       if (liveTruckDataList !== undefined && liveTruckDataList.size !== 0) {
@@ -51,6 +53,19 @@ class InitializeAuction extends Component {
         });
         this.setState({ trucksReadyForAuction: count });
       }
+      if (fetchedLastAucListDoc) {
+        let lal = [];
+        console.log(" before for each value: ", this.state.lastAucListDoc);
+        for (let i = 1; i < this.state.lastAucListDoc.size - 1; i++) {
+          let truckNo = this.state.lastAucListDoc.get(`${i}`).truck_no;
+          let closed =
+            this.state.lastAucListDoc.get(`${i}`).bid_closed === "true"
+              ? "Yes"
+              : "No";
+          lal.push({ TruckNo: truckNo, Closed: closed });
+        }
+        this.setState({ lalForModalDialog: lal });
+      }
       this.setState({
         fetchedLiveTruckDataList: fetchedLiveTruckDataList,
         fetchedLastAucListDoc: fetchedLastAucListDoc,
@@ -60,12 +75,12 @@ class InitializeAuction extends Component {
         liveTruckDataList: liveTruckDataList,
       });
 
-      console.log("fetchedLiveTruckDataList: ", fetchedLiveTruckDataList);
-      console.log("fetchedLastAucListDoc: ", fetchedLastAucListDoc);
-      console.log("fetchedPahunchs: ", fetchedPahunchs);
+      // console.log("fetchedLiveTruckDataList: ", fetchedLiveTruckDataList);
+      // console.log("fetchedLastAucListDoc: ", fetchedLastAucListDoc);
+      // console.log("fetchedPahunchs: ", fetchedPahunchs);
       console.log("separatedLastOpenClosed: ", separatedLastOpenClosed);
-      console.log("lastAucListDoc: ", lastAucListDoc);
-      console.log("liveTruckDataList: ", liveTruckDataList);
+      // console.log("lastAucListDoc: ", lastAucListDoc);
+      // console.log("liveTruckDataList: ", liveTruckDataList);
       // let lastAuctionData = store.getState().firestore.lastAuctionListDocument;
       // let loadingLastAucData = store.getState().firestore
       //   .fetchedLastAucListDoc;
@@ -109,7 +124,6 @@ class InitializeAuction extends Component {
   };
 
   toggleHideLTDModal = () => {
-    console.log("back");
     this.setState({ showLTDModal: false });
   };
 
@@ -137,11 +151,10 @@ class InitializeAuction extends Component {
             <h5 className="card-title">Last auction overview</h5>
             {this.state.fetchedLastAucListDoc ? (
               <p className="card-text">
-                Last auction had total{" "}
-                {Object.keys(this.state.lastAucListDoc).length} trucks out of
-                which{" "}
-                {Object.values(this.state.lastAucListDoc).reduce(
-                  (t, value) => t + (value.bid_closed === "true" ? 1 : 0),
+                Last auction had total {this.state.lastAucListDoc.size - 1}{" "}
+                trucks out of which{" "}
+                {this.state.lalForModalDialog.reduce(
+                  (t, value) => t + (value.closed === "true" ? 1 : 0),
                   0
                 )}{" "}
                 trucks closed their bids.
@@ -169,8 +182,8 @@ class InitializeAuction extends Component {
             this.state.fetchedPahunchs ? (
               <p className="card-text">
                 There are total {this.state.liveTruckDataList.size} trucks
-                registered out of which {this.state.trucksReadyForAuction} trucks are ready
-                for the next auction.
+                registered out of which {this.state.trucksReadyForAuction}{" "}
+                trucks are ready for the next auction.
               </p>
             ) : (
               this.showSpinner()
@@ -182,9 +195,42 @@ class InitializeAuction extends Component {
   };
 
   handleOnClick = (e) => {
-    console.log("clicked buttons");
     this.props.separateOpenCloseLists();
   };
+
+  showLiveTruckDataList() {
+    if (this.state.fetchedLiveTruckDataList) {
+      let trucks = [];
+      this.state.liveTruckDataList.forEach((value) => {
+        trucks.push(value.TruckNo);
+      });
+      return (
+        <ul>
+          {trucks.map((truck) => (
+            <li key={truck}>{truck}</li>
+          ))}
+        </ul>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  showLastAucList() {
+    if (this.state.fetchedLastAucListDoc) {
+      return (
+        <ul>
+          {this.state.lalForModalDialog.map((lalItem) => (
+            <li key={lalItem.TruckNo}>
+              Truck no: {lalItem.TruckNo}, Last closed: {lalItem.Closed}
+            </li>
+          ))}
+        </ul>
+      );
+    } else {
+      return null;
+    }
+  }
 
   render() {
     return (
@@ -209,7 +255,9 @@ class InitializeAuction extends Component {
                   style={{
                     textAlign: "center",
                   }}
-                ></div>
+                >
+                  {this.showLiveTruckDataList()}
+                </div>
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="primary" onClick={this.toggleHideLTDModal}>
@@ -234,7 +282,9 @@ class InitializeAuction extends Component {
                   style={{
                     textAlign: "center",
                   }}
-                ></div>
+                >
+                  {this.showLastAucList()}
+                </div>
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="primary" onClick={this.toggleHideLALModal}>
