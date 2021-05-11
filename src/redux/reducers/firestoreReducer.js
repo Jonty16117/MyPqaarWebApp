@@ -17,19 +17,19 @@ const initState = {
   pahunchs: new Map(),
   fetchedPahunchs: false,
 
-  lastOpenClosed: {},
   trucksInLastAuc: new Map(),
-  separatedLastOpenClosed: false,
+  draftLiveAuctionList: {},
+  draftedLiveAuctionList: false,
 };
 
 const firestoreReducer = (state = initState, action) => {
   switch (action.type) {
-    case "LOADING_LAST_OPEN_CLOSED":
-      return { ...state, separatedLastOpenClosed: false };
-    case "LOADED_LAST_OPEN_CLOSED":
-      return { ...state, separatedLastOpenClosed: true };
-    case "SET_LAST_OPEN_CLOSED":
-      return { ...state, lastOpenClosed: action.payload };
+    case "DRAFTING_LIVE_AUCTION_LIST":
+      return { ...state, draftedLiveAuctionList: false };
+    case "DRAFTED_LIVE_AUCTION_LIST":
+      return { ...state, draftedLiveAuctionList: true };
+    case "STORE_DRAFTED_LIVE_AUCTION_LIST":
+      return { ...state, draftLiveAuctionList: action.payload };
     case "LOADING_PAHUNCHS":
       return { ...state, fetchedPahunchs: false };
     case "LOADED_PAHUNCHS":

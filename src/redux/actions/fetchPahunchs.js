@@ -5,7 +5,6 @@ export const fetchPahunchs = () => {
     const firestore = getFirestore();
     let pahunchs;
     dispatch({ type: "LOADING_PAHUNCHS" });
-    console.log("started fetching document");
     firestore
       .collection(PAHUNCHS)
       .get()
@@ -20,10 +19,11 @@ export const fetchPahunchs = () => {
               ] = pahunch.data();
             } else {
               let newPahunchAdminEntry = new Map();
+              newPahunchAdminEntry.set(pahunch.data().TruckNo, pahunch.data())
               pahunchs.set(pahunch.data().AuctionId, newPahunchAdminEntry);
-              pahunchs.get(pahunch.data().AuctionId)[
-                pahunch.data().TruckNo
-              ] = pahunch.data();
+              // pahunchs.get(pahunch.data().AuctionId)[
+              //   pahunch.data().TruckNo
+              // ] = pahunch.data();
             }
           }
         });
@@ -31,7 +31,6 @@ export const fetchPahunchs = () => {
           type: "FETCHED_PAHUNCHS",
           payload: pahunchs,
         });
-        console.log("Fetched paunchs:", pahunchs);
         dispatch({ type: "LOADED_PAHUNCHS" });
       })
       .catch((error) => {
