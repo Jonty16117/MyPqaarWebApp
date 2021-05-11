@@ -24,10 +24,26 @@ const initState = {
   uploadingLAL: false,
   uploadedLAL: false,
   uploadingLALError: "",
+
+  updatingLRL: false,
+  verifyingNewBidReq: false,
+  verifiedNewBidReq: "",
 };
 
 const firestoreReducer = (state = initState, action) => {
   switch (action.type) {
+    case "VERIFYING_NEW_BID_REQUEST":
+      return { ...state, verifyingNewBidReq: true };
+    case "VERIFIED_NEW_BID_REQUEST":
+      return {
+        ...state,
+        verifyingNewBidReq: false,
+        verifiedNewBidReq: action.payload,
+      };
+    case "UPDATING_LIVE_ROUTES_LIST":
+      return { ...state, uploadingLALError: true };
+    case "UPDATED_LIVE_ROUTES_LIST":
+      return { ...state, uploadingLALError: false };
     case "UPLOADING_LIVE_AUCTION_LIST_ERROR":
       return { ...state, uploadingLALError: action.payload };
     case "UPLOADING_LIVE_AUCTION_LIST":

@@ -6,6 +6,7 @@ import Register from "./components/auth/Register";
 import Dashboard from "./components/dashboard/Dashboard";
 import AddRoutes from "./components/dashboard/ScheduleAuction/AddRoutes";
 import InitializeAuction from "./components/dashboard/InitializeAuction/InitializeAuction";
+import ConductAuction from "./components/dashboard/ConductAuction/ConductAuction";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="/dashboard" exact component={Dashboard}></Route>
           <Route path="/addroutes" exact component={AddRoutes}></Route>
           <Route path="/initializeAuction" exact component={InitializeAuction}></Route>
+          <Route path="/conductAuction" exact component={ConductAuction}></Route>
         </Switch>
       </BrowserRouter>
     </>
