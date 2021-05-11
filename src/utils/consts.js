@@ -5,6 +5,7 @@ const LIVE_ROUTES_LIST = "LiveRoutesList";
 const LIVE_TRUCK_DATA_LIST = "LiveTruckData";
 const AUCTION_HISTORY_LIST = "auction-lists";
 const PAHUNCHS = "PahunchAdminRecords";
+const LIVE_AUCTION_LIST = "LiveAuctionList";
 
 // Documents
 const SCHEDULED_AUCTIONS = "ScheduledAuctions";
@@ -17,4 +18,5 @@ export {
   LIVE_TRUCK_DATA_LIST,
   AUCTION_HISTORY_LIST,
   PAHUNCHS,
+  LIVE_AUCTION_LIST,
 };

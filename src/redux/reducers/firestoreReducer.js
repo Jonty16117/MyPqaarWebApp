@@ -20,10 +20,20 @@ const initState = {
   trucksInLastAuc: new Map(),
   draftLiveAuctionList: {},
   draftedLiveAuctionList: false,
+
+  uploadingLAL: false,
+  uploadedLAL: false,
+  uploadingLALError: "",
 };
 
 const firestoreReducer = (state = initState, action) => {
   switch (action.type) {
+    case "UPLOADING_LIVE_AUCTION_LIST_ERROR":
+      return { ...state, uploadingLALError: action.payload };
+    case "UPLOADING_LIVE_AUCTION_LIST":
+      return { ...state, uploadingLAL: true, uploadedLAL: false };
+    case "UPLOADED_LIVE_AUCTION_LIST":
+      return { ...state, uploadingLAL: false, uploadedLAL: true };
     case "DRAFTING_LIVE_AUCTION_LIST":
       return { ...state, draftedLiveAuctionList: false };
     case "DRAFTED_LIVE_AUCTION_LIST":

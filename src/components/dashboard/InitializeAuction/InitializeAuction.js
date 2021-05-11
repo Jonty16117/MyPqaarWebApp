@@ -5,6 +5,7 @@ import { fetchLastAuctionListDocument } from "../../../redux/actions/fetchLastAu
 import { fetchPahunchs } from "../../../redux/actions/fetchPahunchs";
 import { fetchAuctionsInfo } from "../../../redux/actions/fetchAuctionsInfo";
 import { draftLiveAuctionList } from "../../../redux/actions/draftLiveAuctionList";
+import { uploadLiveAuctionList } from "../../../redux/actions/uploadLiveAuctionList";
 import { connect } from "react-redux";
 import store from "../../../redux/store";
 import styles from "../../../styles/InitializeAuction.module.css";
@@ -36,6 +37,8 @@ class InitializeAuction extends Component {
       showErrorAlertFlag: "",
       uploadingLAL: false,
       uploadedLAL: false,
+      uploadingLALError: "",
+      uploadingLALErrorAlert: false,
     };
 
     this.props.fetchAuctionsInfo();
@@ -52,6 +55,10 @@ class InitializeAuction extends Component {
       let fetchedLastAucListDoc =
         store.getState().firestore.fetchedLastAucListDoc;
       let liveTruckDataList = store.getState().firestore.liveTruckDataList;
+      let uploadingLAL = store.getState().firestore.uploadingLAL;
+      let uploadedLAL = store.getState().firestore.uploadedLAL;
+      let uploadingLALError = store.getState().firestore.uploadingLALError;
+
       if (liveTruckDataList !== undefined && liveTruckDataList.size !== 0) {
         let count = 0;
         liveTruckDataList.forEach((value) => {
@@ -91,6 +98,9 @@ class InitializeAuction extends Component {
         fetchedPahunchs: fetchedPahunchs,
         lastAucListDoc: lastAucListDoc,
         liveTruckDataList: liveTruckDataList,
+        uploadingLAL: uploadingLAL,
+        uploadedLAL: uploadedLAL,
+        uploadingLALError: uploadingLALError,
       });
     });
   }
@@ -225,6 +235,20 @@ class InitializeAuction extends Component {
     );
   }
 
+  uploadingLALError() {
+    return (
+      <div
+        className="alert alert-danger"
+        role="alert"
+        style={{
+          margin: "0 auto 0 auto",
+        }}
+      >
+        Failed to upload live auction list, please try again!
+      </div>
+    );
+  }
+
   handleOnClick = (e) => {
     // let perUserBidDurationInMillis = 15000;
     if (this.state.perUserBidDurationInMillis <= 0) {
@@ -353,7 +377,7 @@ class InitializeAuction extends Component {
               </div>
             </div>
             {this.state.draftLiveAuctionList.map((listItem) => (
-              <div className="row" key={listItem.CurrListNo}>
+              <div className="row" key={listItem.CurrNo}>
                 <div className="col" style={{ textAlign: "center" }}>
                   {listItem.CurrNo}
                 </div>
@@ -389,7 +413,12 @@ class InitializeAuction extends Component {
   }
 
   handleClickUploadLAL = (e) => {
-    this.setState({uploadingLAL: true})
+    if (this.state.uploadingLALError.length !== 0) {
+      this.setState({ uploadingLALErrorAlert: true });
+    } else {
+      this.setState({ uploadingLALErrorAlert: false });
+      this.props.uploadLiveAuctionList();
+    }
   };
 
   render() {
@@ -487,6 +516,10 @@ class InitializeAuction extends Component {
                   </React.Fragment>
                 )}
                 {this.state.uploadedLAL ? this.uploadedNALAlert() : null}
+                {this.state.uploadedLAL &&
+                this.state.uploadingLALError.length !== 0
+                  ? this.uploadingLALErrorAlert()
+                  : null}
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={this.toggleHideNALModal}>
@@ -556,6 +589,7 @@ const mapDispatchToProps = (dispatch) => {
     draftLiveAuctionList: (perUserBidDurationInMillis) =>
       dispatch(draftLiveAuctionList(perUserBidDurationInMillis)),
     fetchAuctionsInfo: () => dispatch(fetchAuctionsInfo()),
+    uploadLiveAuctionList: () => dispatch(uploadLiveAuctionList()),
   };
 };
 
