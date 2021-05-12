@@ -1,14 +1,15 @@
-import { LIVE_ROUTES_LIST } from "../../utils/consts.js";
+import { LIVE_AUCTION_LIST } from "../../utils/consts.js";
 
 export const fetchLiveAuctionList = () => {
   return (dispatch, getState, { getFirestore }) => {
-    dispatch({ type: "LOADING_PRL" });
+    dispatch({ type: "UPDATING_LIVE_AUCTION_LIST" });
     const firestore = getFirestore();
-    firestore.collection(LIVE_ROUTES_LIST).onSnapshot((querySnapshot) => {
+    firestore.collection(LIVE_AUCTION_LIST).onSnapshot((querySnapshot) => {
       
     });
   };
 };
 
-dispatch({ type: "STORE_PRL", payload: prl });
-dispatch({ type: "LOADED_PRL" });
+dispatch({ type: "SET_LIVE_AUCTION_LIST", payload: lal });
+dispatch({ type: "UPDATED_LIVE_AUCTION_LIST" });
+dispatch({ type: "UPDATING_LIVE_AUCTION_LIST_ERROR" });

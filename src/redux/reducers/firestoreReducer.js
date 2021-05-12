@@ -26,8 +26,13 @@ const initState = {
   uploadingLALError: "",
 
   updatingLRL: false,
+  updatedLRL: new Map(),
   verifyingNewBidReq: false,
   verifiedNewBidReq: "",
+
+  updatingLAL: true,
+  updatedLAL: new Map(),
+  updatingLALError: "",
 };
 
 const firestoreReducer = (state = initState, action) => {
@@ -40,10 +45,22 @@ const firestoreReducer = (state = initState, action) => {
         verifyingNewBidReq: false,
         verifiedNewBidReq: action.payload,
       };
+    case "UPDATING_LIVE_AUCTION_LIST":
+      return { ...state, updatingLAL: true };
+    case "UPDATED_LIVE_AUCTION_LIST":
+      return { ...state, updatingLAL: false };
+    case "UPDATING_LIVE_AUCTION_LIST_ERROR":
+      return { ...state, updatingLALError: action.payload };
+    case "SET_LIVE_AUCTION_LIST":
+      return { ...state, updatedLAL: action.payload };
+
     case "UPDATING_LIVE_ROUTES_LIST":
-      return { ...state, uploadingLALError: true };
+      return { ...state, updatingLRL: true };
     case "UPDATED_LIVE_ROUTES_LIST":
-      return { ...state, uploadingLALError: false };
+      return { ...state, updatingLRL: false };
+    case "SET_LIVE_ROUTES_LIST":
+      return { ...state, updatedLRL: action.payload };
+
     case "UPLOADING_LIVE_AUCTION_LIST_ERROR":
       return { ...state, uploadingLALError: action.payload };
     case "UPLOADING_LIVE_AUCTION_LIST":
