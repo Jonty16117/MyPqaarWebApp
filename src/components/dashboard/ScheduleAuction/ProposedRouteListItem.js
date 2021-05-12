@@ -52,7 +52,9 @@ export default function ProposedRouteListItem(props) {
       <Accordion defaultActiveKey="0">
         <div className="container-flud collapsible">
           <Accordion.Toggle as={"div"} eventKey="1">
-            <a href="#">
+            <a href="#" onClick={(e) => {
+                e.preventDefault();
+              }}>
               <div
                 className="shadow-lg p-3 mb-5 bg-green rounded"
                 className={styles.prl_container}

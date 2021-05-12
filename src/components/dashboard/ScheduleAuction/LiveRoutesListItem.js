@@ -80,10 +80,14 @@ class LiveRoutesListItem extends Component {
   }
 
   handleChange = (e, index) => {
-    let updatedLR = this.getUpdatedLR(e.target.name, Number(e.target.value), index);
-    this.setState({lrItem: updatedLR}, () => {
-      let storeLRL = store.getState().firestore.draftLRL
-      storeLRL[this.props.storeIndex] = updatedLR
+    let updatedLR = this.getUpdatedLR(
+      e.target.name,
+      Number(e.target.value),
+      index
+    );
+    this.setState({ lrItem: updatedLR }, () => {
+      let storeLRL = store.getState().firestore.draftLRL;
+      storeLRL[this.props.storeIndex] = updatedLR;
       this.props.updateDraftLRL(storeLRL);
     });
   };
@@ -94,7 +98,12 @@ class LiveRoutesListItem extends Component {
         <Accordion defaultActiveKey="0">
           <div className="container-flud collapsible">
             <Accordion.Toggle as={"div"} eventKey="1">
-              <a href="#">
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
+              >
                 <div
                   className="shadow-lg p-3 mb-5 bg-green rounded"
                   className={styles.lr_container}

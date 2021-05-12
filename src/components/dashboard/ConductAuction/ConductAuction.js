@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { Table, Card, Button, Spinner, Modal } from "react-bootstrap";
 import { connect } from "react-redux";
 import { fetchLiveRoutesList } from "../../../redux/actions/fetchLiveRoutesList";
+import LiveAuctionList from "./LiveAuctionList";
 import styles from "../../../styles/ConductAuction.module.css";
 
-export class ConductAuction extends Component {
+class ConductAuction extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -97,6 +98,7 @@ export class ConductAuction extends Component {
             </React.Fragment>
           </Table>
         )}
+        <LiveAuctionList />
       </React.Fragment>
     );
   }
