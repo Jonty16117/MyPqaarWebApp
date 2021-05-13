@@ -21,6 +21,9 @@ class LiveAuctionList extends Component {
     this.state = {
       updatingLAL: true,
       chunkedLAL: [],
+      // verifyingNewBidReq: 0,
+      // settingAccordToggle: false,
+      // chunkedLALCurrToggleList: new Map(),
     };
     this.props.fetchLiveAuctionList();
     this.props.fetchAuctionsInfo();
@@ -28,26 +31,48 @@ class LiveAuctionList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(
-      {
-        updatingLAL: nextProps.updatingLAL,
-      },
-      () => {
-        this.setState({ chunkedLAL: nextProps.updatedLAL });
-      }
-    );
+    this.setState({
+      updatingLAL: nextProps.updatingLAL,
+      chunkedLAL: nextProps.updatedLAL,
+      verifyingNewBidReq: nextProps.verifyingNewBidReq,
+    });
+    // for (let i = 0; i < chunkedLAL.size; i++) {
+    //   let obj = {};
+    //   obj[i] = "0";
+    //   this.setState(obj);
+    // }
+    // this.setState({ settingAccordToggle: true }, () => {
+    //   let accordToggle = {};
+    //   for (let i = 0; i < nextProps.updatedLAL.length; i++) {
+    //     accordToggle[i] = "0";
+    //   }
+    //   this.setState(accordToggle);
+    // });
+    // this.setState({ settingAccordToggle: false });
   }
+
+  toggleLALGroupOnClick = (e, index) => {
+    e.preventDefault();
+    // if(this.state[index] === "0") {
+    //   this.setState({index: "1"})
+    // }
+    // else {
+    //   this.setState({index: "0"})
+    // }
+  };
 
   liveAuctionListGroupItem = (chunkedItem) => {
     return (
-      <Accordion defaultActiveKey="0">
+      <Accordion
+        // defaultActiveKey={this.state[index]}
+        defaultActiveKey="1"
+        key={chunkedItem[0].CurrNo}
+      >
         <div className="container-flud collapsible">
           <Accordion.Toggle as={"div"} eventKey="1">
             <a
               href="#"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
+              onClick={(e, index) => this.toggleLALGroupOnClick(e, index)}
             >
               <div
                 className="shadow-lg p-3 mb-5 bg-green rounded"
@@ -67,6 +92,7 @@ class LiveAuctionList extends Component {
                 <div
                   className="container"
                   className={styles.liveAuctionListItem}
+                  key={aucItem.CurrNo}
                 >
                   <p>Pqaar no:&nbsp;</p>
                   <p style={{ fontWeight: "bold" }}>
@@ -125,43 +151,6 @@ class LiveAuctionList extends Component {
                       ></img>
                     </React.Fragment>
                   )}
-                  {/* {aucItem.StartTime <= Date.now() ? (
-                    <React.Fragment>
-                      <p>Unlocked&nbsp;</p>
-                      <img
-                        className={styles.ic_lock}
-                        src={ic_unlocked}
-                        alt="unlocked"
-                      ></img>
-                    </React.Fragment>
-                  ) : (
-                    <React.Fragment>
-                      <p>Unlocks in:&nbsp;</p>
-
-                      <p style={{ fontWeight: "bold" }}>
-                        <Timer
-                          initialTime={aucItem.StartTime - Date.now()}
-                          direction="backward"
-                        >
-                          {() => (
-                            <React.Fragment>
-                              <Timer.Hours />
-                              &nbsp;:&nbsp;
-                              <Timer.Minutes />
-                              &nbsp;:&nbsp;
-                              <Timer.Seconds />
-                              &nbsp;
-                            </React.Fragment>
-                          )}
-                        </Timer>
-                      </p>
-                      <img
-                        className={styles.ic_lock}
-                        src={ic_locked}
-                        alt="locked"
-                      ></img>
-                    </React.Fragment>
-                  )} */}
                 </div>
               ))}
             </>
@@ -170,6 +159,11 @@ class LiveAuctionList extends Component {
       </Accordion>
     );
   };
+
+  liveAuctionListGroup = () =>
+    this.state.chunkedLAL.map((chunkedItem, index) => {
+      return this.liveAuctionListGroupItem(chunkedItem, index);
+    });
 
   render() {
     return (
@@ -199,9 +193,9 @@ class LiveAuctionList extends Component {
                 </Spinner>
               </div>
             ) : (
-              this.state.chunkedLAL.map((chunkedItem) =>
-                this.liveAuctionListGroupItem(chunkedItem)
-              )
+              this.state.chunkedLAL.map((chunkedItem) => {
+                return this.liveAuctionListGroupItem(chunkedItem);
+              })
             )}
           </Card.Body>
           <Card.Footer className="text-muted">
@@ -222,13 +216,20 @@ const mapStateToProps = (state) => {
     LALMapToArray.push(value);
   });
   let chunkedLAL = chunkList(LALMapToArray, CHUNKED_LIST_SIZE);
+
+  // let accordToggle = new Map();
+  // let accordToggle = {};
+  // for (let i = 0; i < chunkedLAL.size; i++) {
+  //   // accordToggle.set(i, "0");
+  //   accordToggle[i] = "0";
+  // }
+  // console.log("chunked list: ", chunkedLAL)
   return {
     updatingLRL: state.firestore.updatingLRL,
     updatedLRL: state.firestore.updatedLRL,
 
     verifyingNewBidReq: state.firestore.verifyingNewBidReq,
-    verifiedNewBidReq: state.firestore.verifiedNewBidReq,
-
+    // accordToggle: accordToggle,
     updatingLAL: state.firestore.updatingLAL,
     updatedLAL: chunkedLAL,
     updatingLALError: state.firestore.updatingLALError,

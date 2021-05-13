@@ -27,8 +27,7 @@ const initState = {
 
   updatingLRL: false,
   updatedLRL: new Map(),
-  verifyingNewBidReq: false,
-  verifiedNewBidReq: "",
+  verifyingNewBidReq: 0,
 
   updatingLAL: true,
   updatedLAL: new Map(),
@@ -42,12 +41,11 @@ const initState = {
 const firestoreReducer = (state = initState, action) => {
   switch (action.type) {
     case "VERIFYING_NEW_BID_REQUEST":
-      return { ...state, verifyingNewBidReq: true };
+      return { ...state, verifyingNewBidReq: action.payload };
     case "VERIFIED_NEW_BID_REQUEST":
       return {
         ...state,
-        verifyingNewBidReq: false,
-        verifiedNewBidReq: action.payload,
+        verifyingNewBidReq: 0,
       };
     case "UPDATING_BONUS_TIME":
       return { ...state, bonusTimingIsLoading: true };
