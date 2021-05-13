@@ -36,10 +36,32 @@ const initState = {
   bonusTimingIsLoading: false,
   bonusTimings: { StartTime: "0", EndTime: "-" },
   bonusTimingsErrors: "",
+
+  fetchingAddTrucksReq: false,
+  fetchedAddTrucksReq: {},
+
+  fetchingRemoveTrucksReq: false,
+  fetchedRemoveTrucksReq: {},
 };
 
 const firestoreReducer = (state = initState, action) => {
   switch (action.type) {
+    case "FETCHING_REMOVE_TRUCKS_REQ":
+      return { ...state, fetchingRemoveTrucksReq: true };
+    case "FETCHED_REMOVE_TRUCKS_REQ":
+      return {
+        ...state,
+        fetchingRemoveTrucksReq: false,
+        fetchedRemoveTrucksReq: action.payload,
+      };
+    case "FETCHING_ADD_TRUCKS_REQ":
+      return { ...state, fetchingAddTrucksReq: true };
+    case "FETCHED_ADD_TRUCKS_REQ":
+      return {
+        ...state,
+        fetchingAddTrucksReq: false,
+        fetchedAddTrucksReq: action.payload,
+      };
     case "VERIFYING_NEW_BID_REQUEST":
       return { ...state, verifyingNewBidReq: action.payload };
     case "VERIFIED_NEW_BID_REQUEST":

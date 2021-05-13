@@ -23,7 +23,7 @@ const Navbar = (props) => {
     <>
       <nav className="navbar navbar-dark navbar-expand-md navbar-custom">
         <NavLink to="/">
-          <span className="navbar-brand" onClick={handleNavCollapse}>
+          <span className="navbar-brand" onClick={(e) => setIsNavCollapsed(true)}>
             <img src="/logo_pqaar.png" width="30" height="30" alt=""></img>
             &nbsp;&nbsp;Pqaar
           </span>
@@ -59,18 +59,18 @@ const Navbar = (props) => {
                 </NavLink>
                 <NavDropdown title="Manage Trucks" id="basic-nav-dropdown">
                   <NavDropdown.Item>
-                    <NavLink to="/addTrucksRequests">
+                    <NavLink to="/addTrucksRequests" onClick={handleNavCollapse}>
                       <li className={styles.drop_down_nav_item}>Add truck requests</li>
                     </NavLink>
                   </NavDropdown.Item>
                   <NavDropdown.Item>
-                    <NavLink to="/removeTrucksRequests">
+                    <NavLink to="/removeTrucksRequests" onClick={handleNavCollapse}>
                       <li className={styles.drop_down_nav_item}>Remove truck requests</li>
                     </NavLink>
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item>
-                    <NavLink to="/removeTrucksRequests">
+                    <NavLink to="/removeTrucksRequests" onClick={handleNavCollapse}>
                       <li className={styles.drop_down_nav_item}>Show all trucks</li>
                     </NavLink>
                   </NavDropdown.Item>
