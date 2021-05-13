@@ -1,0 +1,7 @@
+.drop_down_nav_item:hover {
+  color: #2b155bff;
+}
+
+.drop_down_nav_item:active {
+  color: white;
+}

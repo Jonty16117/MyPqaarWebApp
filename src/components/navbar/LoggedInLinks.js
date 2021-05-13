@@ -21,6 +21,11 @@ class LoggedInLinks extends Component {
           <span className="nav-link">Logout</span>
         </li>
         </NavLink>
+        <NavLink to="/">
+        <li className="nav-item" onClick={this.logout}>
+          <span className="nav-link">Logout</span>
+        </li>
+        </NavLink>
       </>
     );
   }
