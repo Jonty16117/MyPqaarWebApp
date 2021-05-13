@@ -9,6 +9,7 @@ const LIVE_AUCTION_LIST = "LiveAuctionList";
 
 // Documents
 const SCHEDULED_AUCTIONS = "ScheduledAuctions";
+const BONUS_TIMINGS = "AuctionBonusTimeInfo";
 
 export {
   MANDI_ROUTES_LIST,
@@ -19,4 +20,5 @@ export {
   AUCTION_HISTORY_LIST,
   PAHUNCHS,
   LIVE_AUCTION_LIST,
+  BONUS_TIMINGS,
 };

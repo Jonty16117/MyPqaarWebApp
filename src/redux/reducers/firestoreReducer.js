@@ -5,7 +5,7 @@ const initState = {
   lrlIsUpLoading: false,
   lrl: [],
   aucTimingIsLoading: false,
-  aucTimings: { StartTime: -1, EndTime: -1 },
+  aucTimings: { StartTime: "0", EndTime: "-" },
   errors: "",
 
   liveTruckDataList: new Map(),
@@ -33,6 +33,10 @@ const initState = {
   updatingLAL: true,
   updatedLAL: new Map(),
   updatingLALError: "",
+
+  bonusTimingIsLoading: false,
+  bonusTimings: { StartTime: "0", EndTime: "-" },
+  bonusTimingsErrors: "",
 };
 
 const firestoreReducer = (state = initState, action) => {
@@ -45,6 +49,12 @@ const firestoreReducer = (state = initState, action) => {
         verifyingNewBidReq: false,
         verifiedNewBidReq: action.payload,
       };
+    case "UPDATING_BONUS_TIME":
+      return { ...state, bonusTimingIsLoading: true };
+    case "UPDATED_BONUS_TIME":
+      return { ...state, bonusTimingIsLoading: false };
+    case "SET_BONUS_TIME":
+      return { ...state, bonusTimings: action.payload };
     case "UPDATING_LIVE_AUCTION_LIST":
       return { ...state, updatingLAL: true };
     case "UPDATED_LIVE_AUCTION_LIST":

@@ -418,6 +418,7 @@ class InitializeAuction extends Component {
     } else {
       this.setState({ uploadingLALErrorAlert: false });
       this.props.uploadLiveAuctionList();
+      //update new auction timings
     }
   };
 
