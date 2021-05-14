@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { NavDropdown } from "react-bootstrap";
 import { logout } from "../../redux/actions/logout";
 import styles from "../../styles/Navbar.module.css";
+import { fetchTruckRequests } from "../../redux/actions/fetchTruckRequests";
 
 // import LoggedInLinks from "./LoggedInLinks";
 // import LoggedOutLinks from "./LoggedOutLinks";
@@ -23,7 +24,10 @@ const Navbar = (props) => {
     <>
       <nav className="navbar navbar-dark navbar-expand-md navbar-custom">
         <NavLink to="/">
-          <span className="navbar-brand" onClick={(e) => setIsNavCollapsed(true)}>
+          <span
+            className="navbar-brand"
+            onClick={(e) => setIsNavCollapsed(true)}
+          >
             <img src="/logo_pqaar.png" width="30" height="30" alt=""></img>
             &nbsp;&nbsp;Pqaar
           </span>
@@ -59,19 +63,62 @@ const Navbar = (props) => {
                 </NavLink>
                 <NavDropdown title="Manage Trucks" id="basic-nav-dropdown">
                   <NavDropdown.Item>
-                    <NavLink to="/addTrucksRequests" onClick={handleNavCollapse}>
-                      <li className={styles.drop_down_nav_item}>Add truck requests</li>
+                    <NavLink
+                      to="/addTrucksRequests"
+                      onClick={handleNavCollapse}
+                    >
+                      <li className={styles.drop_down_nav_item}>
+                        Add truck requests&nbsp;
+                        {props.isLoggedIn ? (
+                          props.fetchingTruckRequests ? null : props.fetchedTruckRequests.get(
+                              "AddRequests"
+                            ).length !== 0 ? (
+                            <React.Fragment>
+                              <span class="badge badge-success">
+                                {
+                                  props.fetchedTruckRequests.get("AddRequests")
+                                    .length
+                                }
+                              </span>
+                            </React.Fragment>
+                          ) : null
+                        ) : null}
+                      </li>
                     </NavLink>
                   </NavDropdown.Item>
                   <NavDropdown.Item>
-                    <NavLink to="/removeTrucksRequests" onClick={handleNavCollapse}>
-                      <li className={styles.drop_down_nav_item}>Remove truck requests</li>
+                    <NavLink
+                      to="/removeTrucksRequests"
+                      onClick={handleNavCollapse}
+                    >
+                      <li className={styles.drop_down_nav_item}>
+                        Remove truck requests&nbsp;
+                        {props.isLoggedIn ? (
+                          props.fetchingTruckRequests ? null : props.fetchedTruckRequests.get(
+                              "RemoveRequests"
+                            ).length !== 0 ? (
+                            <React.Fragment>
+                              <span class="badge badge-danger">
+                                {
+                                  props.fetchedTruckRequests.get("RemoveRequests")
+                                    .length
+                                }
+                              </span>
+                            </React.Fragment>
+                          ) : null
+                        ) : null}
+                      </li>
                     </NavLink>
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item>
-                    <NavLink to="/removeTrucksRequests" onClick={handleNavCollapse}>
-                      <li className={styles.drop_down_nav_item}>Show all trucks</li>
+                    <NavLink
+                      to="/removeTrucksRequests"
+                      onClick={handleNavCollapse}
+                    >
+                      <li className={styles.drop_down_nav_item}>
+                        Show all trucks
+                      </li>
                     </NavLink>
                   </NavDropdown.Item>
                 </NavDropdown>
@@ -79,7 +126,10 @@ const Navbar = (props) => {
             ) : (
               <>
                 <NavLink to="/login">
-                  <li className={styles.drop_down_nav_item} onClick={handleNavCollapse}>
+                  <li
+                    className={styles.drop_down_nav_item}
+                    onClick={handleNavCollapse}
+                  >
                     <span className="nav-link">Login</span>
                   </li>
                 </NavLink>
@@ -99,7 +149,11 @@ const Navbar = (props) => {
 
 function mapStateToProps(state) {
   //for testing only
-  return { isLoggedIn: true };
+  return {
+    isLoggedIn: true,
+    fetchingTruckRequests: state.firestore.fetchingTruckRequests,
+    fetchedTruckRequests: state.firestore.fetchedTruckRequests,
+  };
 
   // return { isLoggedIn: state.auth.isLoggedIn };
 }
@@ -107,6 +161,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
   return {
     logout: () => dispatch(logout()),
+    
   };
 };
 

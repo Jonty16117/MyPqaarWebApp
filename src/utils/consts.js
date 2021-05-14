@@ -6,8 +6,9 @@ const LIVE_TRUCK_DATA_LIST = "LiveTruckData";
 const AUCTION_HISTORY_LIST = "auction-lists";
 const PAHUNCHS = "PahunchAdminRecords";
 const LIVE_AUCTION_LIST = "LiveAuctionList";
-const ADD_TRUCKS_REQ = "AddTrucksRequests";
+const TRUCKS_REQ = "AddTrucksRequests";
 const REMOVE_TRUCKS_REQ = "RemoveTrucksRequests";
+const USER_DATA = "user-data";
 
 // Documents
 const SCHEDULED_AUCTIONS = "ScheduledAuctions";
@@ -23,6 +24,7 @@ export {
   PAHUNCHS,
   LIVE_AUCTION_LIST,
   BONUS_TIMINGS,
-  ADD_TRUCKS_REQ,
+  TRUCKS_REQ,
   REMOVE_TRUCKS_REQ,
+  USER_DATA,
 };

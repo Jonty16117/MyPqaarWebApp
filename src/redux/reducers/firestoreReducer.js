@@ -37,30 +37,34 @@ const initState = {
   bonusTimings: { StartTime: "0", EndTime: "-" },
   bonusTimingsErrors: "",
 
-  fetchingAddTrucksReq: false,
-  fetchedAddTrucksReq: {},
+  fetchingTruckRequests: true,
+  fetchedTruckRequests: new Map([
+    ["AddRequests", []],
+    ["RemoveRequests", []],
+  ]),
 
-  fetchingRemoveTrucksReq: false,
-  fetchedRemoveTrucksReq: {},
+  addingTruck: false,
+  removingTruck: false,
 };
 
 const firestoreReducer = (state = initState, action) => {
   switch (action.type) {
-    case "FETCHING_REMOVE_TRUCKS_REQ":
-      return { ...state, fetchingRemoveTrucksReq: true };
-    case "FETCHED_REMOVE_TRUCKS_REQ":
+    case "REMOVING_TRUCK":
+      return { ...state, removingTruck: true };
+    case "REMOVED_TRUCK":
+      return { ...state, removingTruck: false };
+    case "ADDING_TRUCK":
+      return { ...state, addingTruck: true };
+    case "ADDED_TRUCK":
+      return { ...state, addingTruck: false };
+
+    case "FETCHING_TRUCK_REQUESTS":
+      return { ...state, fetchingTruckRequests: true };
+    case "FETCHED_TRUCK_REQUESTS":
       return {
         ...state,
-        fetchingRemoveTrucksReq: false,
-        fetchedRemoveTrucksReq: action.payload,
-      };
-    case "FETCHING_ADD_TRUCKS_REQ":
-      return { ...state, fetchingAddTrucksReq: true };
-    case "FETCHED_ADD_TRUCKS_REQ":
-      return {
-        ...state,
-        fetchingAddTrucksReq: false,
-        fetchedAddTrucksReq: action.payload,
+        fetchingTruckRequests: false,
+        fetchedTruckRequests: action.payload,
       };
     case "VERIFYING_NEW_BID_REQUEST":
       return { ...state, verifyingNewBidReq: action.payload };
