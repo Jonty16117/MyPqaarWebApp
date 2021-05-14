@@ -4,7 +4,7 @@ import {
   TRUCKS_REQ,
 } from "../../utils/consts.js";
 
-const addTruck = (ownerUId, truckNo, ownerFirstName, ownerLastName) => {
+const addTruck = (ownerUId, truckNo, ownerFirstName, ownerLastName, frontRCURL, backRCURL, truckRC) => {
   return (dispatch, getState, { getFirestore }) => {
     dispatch({ type: "ADDING_TRUCK" });
     const firestore = getFirestore();
@@ -28,6 +28,9 @@ const addTruck = (ownerUId, truckNo, ownerFirstName, ownerLastName) => {
       Source: null,
       Status: "Unassigned",
       Timestamp: firestore.FieldValue.serverTimestamp(),
+      FrontRCURL: frontRCURL,
+      BackRCURL: backRCURL,
+      TruckRC: truckRC,
     };
     firestore.collection(LIVE_TRUCK_DATA_LIST).doc(truckNo).set(dataToUpload);
 

@@ -9,6 +9,8 @@ import InitializeAuction from "./components/dashboard/InitializeAuction/Initiali
 import ConductAuction from "./components/dashboard/ConductAuction/ConductAuction";
 import AddTrucksRequests from "./components/dashboard/ManageTrucks/AddTrucksRequests";
 import RemoveTrucksRequests from "./components/dashboard/ManageTrucks/RemoveTrucksRequests"
+import ShowAllTrucks from "./components/dashboard/ManageTrucks/ShowAllTrucks"
+
 
 export default function App() {
   return (
@@ -25,6 +27,8 @@ export default function App() {
           <Route path="/conductAuction" exact component={ConductAuction}></Route>
           <Route path="/addTrucksRequests" exact component={AddTrucksRequests}></Route>
           <Route path="/removeTrucksRequests" exact component={RemoveTrucksRequests}></Route>
+          <Route path="/showAllTrucks" exact component={ShowAllTrucks}></Route>
+          
         </Switch>
       </BrowserRouter>
     </>

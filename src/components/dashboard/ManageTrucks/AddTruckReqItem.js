@@ -7,7 +7,6 @@ import Viewer from "react-viewer";
 import addTruck from "../../../redux/actions/addTruck";
 import rejectTruckReq from "../../../redux/actions/rejectTruckReq";
 
-
 function AddTruckReqItem(props) {
   const [visible, setVisible] = useState(false);
   const [showModal, setModalShow] = useState(false);
@@ -37,11 +36,18 @@ function AddTruckReqItem(props) {
     e.preventDefault();
     if (onClickButtonInfo === "Accept") {
       //dispatch confirm action
-      console.log(props.OwnerUId, props.TruckNo, props.FirstName, props.LastName)
-      props.addTruck(props.OwnerUId, props.TruckNo, props.FirstName, props.LastName)
+      props.addTruck(
+        props.OwnerUId,
+        props.TruckNo,
+        props.FirstName,
+        props.LastName,
+        props.FrontRCURL,
+        props.BackRCURL,
+        props.TruckRC
+      );
     } else if (onClickButtonInfo === "Reject") {
       //dispatch reject action
-      props.rejectTruckReq(props.TruckNo)
+      props.rejectTruckReq(props.TruckNo);
     }
     handleCloseModal();
   };
@@ -152,7 +158,26 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addTruck: (ownerUId, truckNo, ownerFirstName, ownerLastName) => dispatch(addTruck(ownerUId, truckNo, ownerFirstName, ownerLastName)),
+    addTruck: (
+      ownerUId,
+      truckNo,
+      ownerFirstName,
+      ownerLastName,
+      frontRCURL,
+      backRCURL,
+      truckRC
+    ) =>
+      dispatch(
+        addTruck(
+          ownerUId,
+          truckNo,
+          ownerFirstName,
+          ownerLastName,
+          frontRCURL,
+          backRCURL,
+          truckRC
+        )
+      ),
     rejectTruckReq: (truckNo) => dispatch(rejectTruckReq(truckNo)),
   };
 };

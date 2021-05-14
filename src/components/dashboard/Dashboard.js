@@ -6,6 +6,7 @@ import store from "../../redux/store";
 import Timer from "react-compound-timer";
 import { fetchAuctionsInfo } from "../../redux/actions/fetchAuctionsInfo";
 import { fetchTruckRequests } from "../../redux/actions/fetchTruckRequests";
+import { fetchLiveTruckDataList } from "../../redux/actions/fetchLiveTruckDataList";
 
 const NO_AUCTIONS = "No auction in-progress or scheduled";
 const AUCTION_IS_SCHEDULED = "Next scheduled auction in";
@@ -22,6 +23,7 @@ class Dashboard extends Component {
     };
     this.props.fetchAuctionsInfo();
     this.props.fetchTruckRequests();
+    this.props.fetchLiveTruckDataList();
     store.subscribe(() => {
       if (store.getState().aucTimingIsLoading) {
         //To do: add loading spinner
@@ -140,6 +142,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchAuctionsInfo: () => dispatch(fetchAuctionsInfo()),
     fetchTruckRequests: () => dispatch(fetchTruckRequests()),
+    fetchLiveTruckDataList: () => dispatch(fetchLiveTruckDataList()),
   };
 };
 

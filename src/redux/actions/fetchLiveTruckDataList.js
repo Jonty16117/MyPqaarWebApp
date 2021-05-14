@@ -1,7 +1,6 @@
 import { LIVE_TRUCK_DATA_LIST } from "../../utils/consts.js";
 
 //data initializers
-let liveTruckDataList = new Map();
 
 //get live truck data list
 export const fetchLiveTruckDataList = () => {
@@ -9,6 +8,7 @@ export const fetchLiveTruckDataList = () => {
     const firestore = getFirestore();
     firestore.collection(LIVE_TRUCK_DATA_LIST).onSnapshot((trucks) => {
       dispatch({ type: "LOADING_LIVE_TRUCK_DATA_LIST" });
+      let liveTruckDataList = new Map();
       liveTruckDataList.clear();
       trucks.forEach((truck) => {
         if (truck.id !== "DummyDoc") {

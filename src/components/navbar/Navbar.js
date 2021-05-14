@@ -113,7 +113,7 @@ const Navbar = (props) => {
                   <NavDropdown.Divider />
                   <NavDropdown.Item>
                     <NavLink
-                      to="/removeTrucksRequests"
+                      to="/showAllTrucks"
                       onClick={handleNavCollapse}
                     >
                       <li className={styles.drop_down_nav_item}>
