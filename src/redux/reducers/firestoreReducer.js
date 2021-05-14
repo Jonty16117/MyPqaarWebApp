@@ -45,10 +45,16 @@ const initState = {
 
   addingTruck: false,
   removingTruck: false,
+
+  updatingBonusTime: false,
 };
 
 const firestoreReducer = (state = initState, action) => {
   switch (action.type) {
+    case "UPDATING_BONUS_TIME":
+      return { ...state, updatingBonusTime: true };
+    case "UPDATED_BONUS_TIME":
+      return { ...state, updatingBonusTime: false };
     case "REMOVING_TRUCK":
       return { ...state, removingTruck: true };
     case "REMOVED_TRUCK":

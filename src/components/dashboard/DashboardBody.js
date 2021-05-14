@@ -3,6 +3,7 @@ import styles from "../../styles/DashboardBody.module.css";
 import ScheduleAuctionCard from "./ScheduleAuction/ScheduleAuctionCard";
 import InitializeAuctionCard from "./InitializeAuction/InitializeAuctionCard";
 import ConductAuctionCard from "./ConductAuction/ConductAuctionCard";
+import CloseAuctionCard from "./CloseAuction/CloseAuctionCard";
 
 class DashboardBody extends Component {
   render() {
@@ -18,6 +19,7 @@ class DashboardBody extends Component {
           <ScheduleAuctionCard />
           <InitializeAuctionCard />
           <ConductAuctionCard />
+          <CloseAuctionCard />
         </div>
       </div>
     );

@@ -7,6 +7,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import AddRoutes from "./components/dashboard/ScheduleAuction/AddRoutes";
 import InitializeAuction from "./components/dashboard/InitializeAuction/InitializeAuction";
 import ConductAuction from "./components/dashboard/ConductAuction/ConductAuction";
+import CloseAuction from "./components/dashboard/CloseAuction/CloseAuction";
 import AddTrucksRequests from "./components/dashboard/ManageTrucks/AddTrucksRequests";
 import RemoveTrucksRequests from "./components/dashboard/ManageTrucks/RemoveTrucksRequests"
 import ShowAllTrucks from "./components/dashboard/ManageTrucks/ShowAllTrucks"
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/addTrucksRequests" exact component={AddTrucksRequests}></Route>
           <Route path="/removeTrucksRequests" exact component={RemoveTrucksRequests}></Route>
           <Route path="/showAllTrucks" exact component={ShowAllTrucks}></Route>
+          <Route path="/closeAuction" exact component={CloseAuction}></Route>
           
         </Switch>
       </BrowserRouter>

@@ -4,9 +4,11 @@ import { connect } from "react-redux";
 import { fetchLiveAuctionList } from "../../../redux/actions/fetchLiveAuctionList";
 import { fetchAuctionsInfo } from "../../../redux/actions/fetchAuctionsInfo";
 import { fetchLiveRoutesList } from "../../../redux/actions/fetchLiveRoutesList";
+import { uploadBonusTime } from "../../../redux/actions/uploadBonusTime";
 import { Table, Card, Button, Spinner, Modal } from "react-bootstrap";
 import styles from "../../../styles/LiveAuctionList.module.css";
 import Timer from "react-compound-timer";
+import DatePicker from "react-datepicker";
 import ic_locked from "../../../assets/ic_locked.png";
 import ic_unlocked from "../../../assets/ic_unlocked.png";
 import ic_green_check from "../../../assets/ic_green_check.png";
@@ -21,9 +23,10 @@ class LiveAuctionList extends Component {
     this.state = {
       updatingLAL: true,
       chunkedLAL: [],
-      // verifyingNewBidReq: 0,
-      // settingAccordToggle: false,
-      // chunkedLALCurrToggleList: new Map(),
+      updatingBonusTime: false,
+      showBonusTimeModal: false,
+      editBonusStartTime: null,
+      editBonusEndTime: null,
     };
     this.props.fetchLiveAuctionList();
     this.props.fetchAuctionsInfo();
@@ -35,30 +38,31 @@ class LiveAuctionList extends Component {
       updatingLAL: nextProps.updatingLAL,
       chunkedLAL: nextProps.updatedLAL,
       verifyingNewBidReq: nextProps.verifyingNewBidReq,
+      updatingBonusTime: nextProps.updatingBonusTime,
     });
-    // for (let i = 0; i < chunkedLAL.size; i++) {
-    //   let obj = {};
-    //   obj[i] = "0";
-    //   this.setState(obj);
-    // }
-    // this.setState({ settingAccordToggle: true }, () => {
-    //   let accordToggle = {};
-    //   for (let i = 0; i < nextProps.updatedLAL.length; i++) {
-    //     accordToggle[i] = "0";
-    //   }
-    //   this.setState(accordToggle);
-    // });
-    // this.setState({ settingAccordToggle: false });
   }
+
+  handleOnChangeBonusStartTime = (date) => {
+    this.setState({ editBonusStartTime: date });
+  };
+
+  handleOnChangeBonusEndTime = (date) => {
+    this.setState({ editBonusEndTime: date });
+  };
+
+  handleOnClickUploadBonusTime = (e) => {
+    e.preventDefault();
+    console.log(this.state.editBonusStartTime, this.state.editBonusEndTime)
+    let startTime = this.state.editBonusStartTime
+    let endTime = this.state.editBonusEndTime
+    if (startTime !== null && endTime  !== null) {
+      this.props.uploadBonusTime(startTime.getTime(), endTime.getTime())
+      this.toggleHideBonusTimeModal();
+    }
+  };
 
   toggleLALGroupOnClick = (e, index) => {
     e.preventDefault();
-    // if(this.state[index] === "0") {
-    //   this.setState({index: "1"})
-    // }
-    // else {
-    //   this.setState({index: "0"})
-    // }
   };
 
   liveAuctionListGroupItem = (chunkedItem) => {
@@ -165,16 +169,98 @@ class LiveAuctionList extends Component {
       return this.liveAuctionListGroupItem(chunkedItem, index);
     });
 
+  handleClickSetBonusTime = (e) => {
+    this.toggleShowBonusTimeModal();
+  };
+
+  toggleShowBonusTimeModal = () => {
+    this.setState({ showBonusTimeModal: true });
+  };
+
+  toggleHideBonusTimeModal = () => {
+    this.setState({ showBonusTimeModal: false });
+  };
+
+  showAddBonusTimeModal = () => {
+    return (
+      <Modal
+        show={this.state.showBonusTimeModal}
+        onHide={this.toggleHideBonusTimeModal}
+        keyboard={true}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Select bonus time start and end time</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div
+            style={{
+              textAlign: "center",
+            }}
+          >
+            <DatePicker
+              selected={this.state.editBonusStartTime}
+              onChange={this.handleOnChangeBonusStartTime}
+              includeDates={[new Date()]}
+              placeholderText="Enter bonus start time"
+              timeInputLabel="Time:"
+              dateFormat="MM/dd/yyyy h:mm aa"
+              showTimeInput
+            />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <DatePicker
+              selected={this.state.editBonusEndTime}
+              onChange={this.handleOnChangeBonusEndTime}
+              includeDates={[new Date()]}
+              placeholderText="Enter bonus end time"
+              timeInputLabel="Time:"
+              dateFormat="MM/dd/yyyy h:mm aa"
+              showTimeInput
+            />
+          </div>
+          {this.state.updatingBonusTime ? (
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "20px",
+              }}
+            >
+              <Spinner animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+              </Spinner>
+            </div>
+          ) : null}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={this.toggleHideBonusTimeModal}>
+            Back
+          </Button>
+          <Button variant="primary" onClick={this.handleOnClickUploadBonusTime}>
+            Release Bonus Time
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  };
+
   render() {
     return (
       <React.Fragment>
         <Card className="text-center">
           <Card.Header style={{ fontWeight: "bold" }}>
-            <p style={{ textAlign: "center", margin: "0" }}>
-              Live Auction List
-            </p>
+            <p style={{ margin: "0" }}>Live Auction List</p>
+            <Button
+              variant="outline-primary"
+              size="sm"
+              style={{ margin: "10px 0 0 0" }}
+              onClick={this.handleClickSetBonusTime}
+            >
+              Add Bonus Time
+            </Button>
+            {this.showAddBonusTimeModal()}
           </Card.Header>
-
           <Card.Body>
             {/* List of groups */}
             {this.state.updatingLAL ? (
@@ -217,13 +303,6 @@ const mapStateToProps = (state) => {
   });
   let chunkedLAL = chunkList(LALMapToArray, CHUNKED_LIST_SIZE);
 
-  // let accordToggle = new Map();
-  // let accordToggle = {};
-  // for (let i = 0; i < chunkedLAL.size; i++) {
-  //   // accordToggle.set(i, "0");
-  //   accordToggle[i] = "0";
-  // }
-  // console.log("chunked list: ", chunkedLAL)
   return {
     updatingLRL: state.firestore.updatingLRL,
     updatedLRL: state.firestore.updatedLRL,
@@ -237,6 +316,8 @@ const mapStateToProps = (state) => {
     bonusTimingIsLoading: state.firestore.bonusTimingIsLoading,
     bonusTimings: state.firestore.bonusTimings,
     bonusTimingsErrors: state.firestore.bonusTimingsErrors,
+
+    updatingBonusTime: state.firestore.updatingBonusTime,
   };
 };
 
@@ -245,6 +326,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchLiveAuctionList: () => dispatch(fetchLiveAuctionList()),
     fetchAuctionsInfo: () => dispatch(fetchAuctionsInfo()),
     fetchLiveRoutesList: () => dispatch(fetchLiveRoutesList()),
+    uploadBonusTime: (startTime, endTime) =>
+      dispatch(uploadBonusTime(startTime, endTime)),
   };
 };
 

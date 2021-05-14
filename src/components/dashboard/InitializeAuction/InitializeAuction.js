@@ -274,7 +274,9 @@ class InitializeAuction extends Component {
     if (this.state.fetchedLiveTruckDataList) {
       let trucks = [];
       this.state.liveTruckDataList.forEach((value) => {
-        trucks.push(value.TruckNo);
+        if (value.Active === "true") {
+          trucks.push(value.TruckNo);
+        }
       });
       return (
         <React.Fragment>
