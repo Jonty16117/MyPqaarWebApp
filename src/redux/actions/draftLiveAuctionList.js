@@ -59,13 +59,13 @@ export const draftLiveAuctionList = (perUserBidDurationInMillis) => {
 
     //Separate last open and closed trucks into two different lists
     for (let i = 1; i < lastAucListDoc.size; i++) {
-      if (truckIsEligibleForAuction(lastAucListDoc.get(`${i}`).truck_no)) {
-        trucksInLastAuc.set(lastAucListDoc.get(`${i}`).truck_no, true);
+      if (truckIsEligibleForAuction(lastAucListDoc.get(`${i}`).TruckNo)) {
+        trucksInLastAuc.set(lastAucListDoc.get(`${i}`).TruckNo, true);
         let newEntryInLAL = {
           PrevNo: i,
-          TruckNo: lastAucListDoc.get(`${i}`).truck_no,
+          TruckNo: lastAucListDoc.get(`${i}`).TruckNo,
         };
-        if (lastAucListDoc.get(`${i}`).bid_closed === "true") {
+        if (lastAucListDoc.get(`${i}`).Closed === "true") {
           lastOpenClosedLists.lastClosed.push(newEntryInLAL);
         } else {
           lastOpenClosedLists.lastOpen.push(newEntryInLAL);

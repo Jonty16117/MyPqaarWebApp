@@ -47,10 +47,17 @@ const initState = {
   removingTruck: false,
 
   updatingBonusTime: false,
+
+  closingAuction: null,
+  closedAuction: null,
 };
 
 const firestoreReducer = (state = initState, action) => {
   switch (action.type) {
+    case "CLOSING_AUCTION":
+      return { ...state, closingAuction: true };
+    case "CLOSED_AUCTION":
+      return { ...state, closingAuction: false, closedAuction: action.payload };
     case "UPDATING_BONUS_TIME":
       return { ...state, updatingBonusTime: true };
     case "UPDATED_BONUS_TIME":

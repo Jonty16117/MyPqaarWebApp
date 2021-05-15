@@ -1,4 +1,4 @@
-import { AUCTION_HISTORY_LIST } from "../../utils/consts.js";
+import { LIVE_AUCTION_LIST_RECORDS } from "../../utils/consts.js";
 
 //data initializers
 // let lastAuctionListDocument = {};
@@ -11,7 +11,7 @@ export const fetchLastAuctionListDocument = () => {
     dispatch({ type: "LOADING_LAST_AUCTION_LIST" });
     console.log("started fetching document");
     firestore
-      .collection(AUCTION_HISTORY_LIST)
+      .collection(LIVE_AUCTION_LIST_RECORDS)
       .orderBy("Timestamp", "desc")
       .limit(1)
       .get()
@@ -25,7 +25,7 @@ export const fetchLastAuctionListDocument = () => {
         // console.log("Fetched last auction document:", lastAuctionListDocument);
         dispatch({
           type: "FETCHED_LAST_AUCTION_LIST",
-          payload: (new Map(Object.entries(lastAuctionListDocument))),
+          payload: new Map(Object.entries(lastAuctionListDocument)),
         });
         dispatch({ type: "LOADED_LAST_AUCTION_LIST" });
       })
