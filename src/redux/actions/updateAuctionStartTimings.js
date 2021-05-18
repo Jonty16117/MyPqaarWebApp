@@ -7,7 +7,6 @@ export const updateAuctionStartTimings = (startTimeInMilli) => {
     const dataToUpdate = {
       StartTime: startTimeInMilli,
       EndTime: 0,
-      Status: "Scheduled",
     };
     firestore
       .collection(AUCTIONS_INFO)

@@ -27,15 +27,18 @@ export const fetchLiveAuctionList = () => {
               });
               bidRequests.set(change.doc.id, change.doc.data());
               let startTime = Number(change.doc.data().StartTime);
-              let closed = change.doc.data().Closed.trim();
+              let closed = change.doc.data().Closed.toString();
+              //pre-validate src and des strings
               let src =
-                change.doc.data().Src.length !== 0
+                (change.doc.data().Src !== null && change.doc.data().Src.length !== 0)
                   ? change.doc.data().Src.trim()
                   : "";
               let des =
-                change.doc.data().Des.length !== 0
+                (change.doc.data().Des !== null && change.doc.data().Des.length !== 0)
                   ? change.doc.data().Des.trim()
                   : "";
+                  console.log("src: ", src)
+                  console.log("des: ", des)
               if (
                 Date.now() > startTime &&
                 closed === "false" &&
@@ -43,7 +46,7 @@ export const fetchLiveAuctionList = () => {
                 des.length > 0 &&
                 lrl.has(`${src}-${des}-Got`)
               ) {
-                //check if the bidd route is still available in the live route list
+                //check if the bid route is still available in the live route list
                 let req = Number(lrl.get(`${src}-${des}-Req`).Value);
                 let got = Number(lrl.get(`${src}-${des}-Got`).Value);
 

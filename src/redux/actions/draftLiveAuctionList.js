@@ -121,8 +121,11 @@ export const draftLiveAuctionList = (perUserBidDurationInMillis) => {
      */
     let aucStartTime = getState().firestore.aucTimings.StartTime;
     draftLiveAuctionList.forEach((item, index) => {
-      item.StartTime = aucStartTime + perUserBidDurationInMillis * index;
+      item.StartTime = aucStartTime + (perUserBidDurationInMillis * 1000) * index;
       item.CurrNo = `${index + 1}`;
+      item.Src = null;
+      item.Des = null;
+      item.Closed = false;
     });
 
     // console.log("draftLiveAuctionList: ", draftLiveAuctionList)

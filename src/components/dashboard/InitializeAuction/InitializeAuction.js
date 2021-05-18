@@ -6,6 +6,8 @@ import { fetchPahunchs } from "../../../redux/actions/fetchPahunchs";
 import { fetchAuctionsInfo } from "../../../redux/actions/fetchAuctionsInfo";
 import { draftLiveAuctionList } from "../../../redux/actions/draftLiveAuctionList";
 import { uploadLiveAuctionList } from "../../../redux/actions/uploadLiveAuctionList";
+import { updateAuctionEndTimings } from "../../../redux/actions/updateAuctionEndTimings";
+
 import { connect } from "react-redux";
 import store from "../../../redux/store";
 import styles from "../../../styles/InitializeAuction.module.css";
@@ -132,6 +134,7 @@ class InitializeAuction extends Component {
   //Live Truck Data
   toggleHideLTDModal = () => {
     this.setState({ showLTDModal: false });
+    
   };
 
   toggleShowLTDModal = () => {
@@ -267,6 +270,7 @@ class InitializeAuction extends Component {
       });
       this.toggleShowNALModal();
       this.props.draftLiveAuctionList(this.state.perUserBidDurationInMillis);
+      
     }
   };
 
@@ -415,12 +419,22 @@ class InitializeAuction extends Component {
   }
 
   handleClickUploadLAL = (e) => {
+    let endTime =
+      this.props.aucTimings +
+      this.state.draftLiveAuctionList.length *
+        this.state.perUserBidDurationInMillis;
+    console.log("endtime: ", endTime);
     if (this.state.uploadingLALError.length !== 0) {
       this.setState({ uploadingLALErrorAlert: true });
     } else {
       this.setState({ uploadingLALErrorAlert: false });
       this.props.uploadLiveAuctionList();
-      //update new auction timings
+      //update new auction end timing
+      let endTime =
+        this.props.aucTimings.StartTime +
+        this.state.draftLiveAuctionList.length *
+          this.state.perUserBidDurationInMillis * 1000;
+      this.props.updateAuctionEndTimings(endTime);
     }
   };
 
@@ -583,6 +597,12 @@ class InitializeAuction extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    aucTimings: state.firestore.aucTimings,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchLiveTruckDataList: () => dispatch(fetchLiveTruckDataList()),
@@ -593,7 +613,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(draftLiveAuctionList(perUserBidDurationInMillis)),
     fetchAuctionsInfo: () => dispatch(fetchAuctionsInfo()),
     uploadLiveAuctionList: () => dispatch(uploadLiveAuctionList()),
+    updateAuctionEndTimings: (endTime) =>
+      dispatch(updateAuctionEndTimings(endTime)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(InitializeAuction);
+export default connect(mapStateToProps, mapDispatchToProps)(InitializeAuction);

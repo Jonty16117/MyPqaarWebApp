@@ -50,10 +50,16 @@ const initState = {
 
   closingAuction: null,
   closedAuction: null,
+
+  uploadingAuctionEndTime: null,
 };
 
 const firestoreReducer = (state = initState, action) => {
   switch (action.type) {
+    case "UPLOADING_AUCTION_END_TIME":
+      return { ...state, uploadingAuctionEndTime: true };
+    case "UPLOADED_AUCTION_END_TIME":
+      return { ...state, uploadingAuctionEndTime: false };
     case "CLOSING_AUCTION":
       return { ...state, closingAuction: true };
     case "CLOSED_AUCTION":

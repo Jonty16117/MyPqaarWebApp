@@ -66,11 +66,11 @@ function CloseAuction(props) {
       <AuctionsInfo />
       {/* {true ? (auctionClosedSuccessAlert()) : (null)} */}
       {props.closingAuction === false ? auctionClosedSuccessAlert() : null}
-      {(
-        props.aucTimings.StartTime !== 0 &&
-        props.aucTimings.Endtime !== 0 && 
-        props.aucTimings.StartTime <= Date.now()
-        ) ? (
+      {props.aucTimings.StartTime !== 0 &&
+      props.aucTimings.Endtime !== 0 &&
+      (props.aucTimings.StartTime <= Date.now() ||
+        (props.bonusTimings.StartTime <= Date.now() && 
+        props.bonusTimings.EndTime > Date.now())) ? (
         props.closingAuction === null ? (
           <Button variant="primary" size="lg" block onClick={handleShowModal}>
             Close Auction
@@ -107,6 +107,7 @@ const mapStateToProps = (state) => {
     aucTimings: state.firestore.aucTimings,
     closingAuction: state.firestore.closingAuction,
     closedAuction: state.firestore.closedAuction,
+    bonusTimings: state.firestore.bonusTimings,
   };
 };
 
