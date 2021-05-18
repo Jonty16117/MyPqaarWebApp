@@ -83,21 +83,18 @@ export const draftLiveAuctionList = (perUserBidDurationInMillis) => {
      * which is done in the next, step. But this timestamp's original motive
      * is to store the timestamp information during the live auction.
      */
-    let liveTruckDataListIt = liveTruckDataList.keys();
-    for (let i = 0; i < liveTruckDataList.size; i++) {
-      let truck = liveTruckDataListIt.next().value;
-      if (!trucksInLastAuc.has(truck) && truckIsEligibleForAuction(truck)) {
+    liveTruckDataList.forEach((value, key) => {
+      if (!trucksInLastAuc.has(key) && truckIsEligibleForAuction(key)) {
         let newEntryInLAL = {
-          PrevNo: liveTruckDataListIt.get(truck).CurrentListNo,
-          TruckNo: truck,
-          StartTime: Number(liveTruckDataListIt.get(truck).Timestamp),
+          PrevNo: value.CurrentListNo,
+          TruckNo: key,
+          StartTime: Number(value.Timestamp),
         };
         // console.log("starttime: ", Number(liveTruckDataListIt.get(truck).Timestamp))
         lastOpenClosedLists.lastMissed.push(newEntryInLAL);
       }
-    }
+    })
 
-    // console.log("lastOpenClosedLists: ", lastOpenClosedLists)
     /**
      * sort the newly generated missed list according
      * to the timestamp, in the ascending order

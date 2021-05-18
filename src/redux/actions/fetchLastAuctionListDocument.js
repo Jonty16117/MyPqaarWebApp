@@ -9,7 +9,7 @@ export const fetchLastAuctionListDocument = () => {
     const firestore = getFirestore();
     let lastAuctionListDocument;
     dispatch({ type: "LOADING_LAST_AUCTION_LIST" });
-    console.log("started fetching document");
+    // console.log("started fetching document");
     firestore
       .collection(LIVE_AUCTION_LIST_RECORDS)
       .orderBy("Timestamp", "desc")

@@ -29,7 +29,7 @@ const initState = {
   updatedLRL: new Map(),
   verifyingNewBidReq: 0,
 
-  updatingLAL: true,
+  updatingLAL: false,
   updatedLAL: new Map(),
   updatingLALError: "",
 

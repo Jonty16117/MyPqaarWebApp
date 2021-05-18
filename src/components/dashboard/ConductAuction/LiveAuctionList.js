@@ -286,7 +286,7 @@ class LiveAuctionList extends Component {
           </Card.Body>
           <Card.Footer className="text-muted">
             <p style={{ fontSize: "15px", margin: "0" }}>
-              Click on any auction list range to view live auction list in that
+              Click on any auction list range to view/hide live auction list in that
               range.
             </p>
           </Card.Footer>

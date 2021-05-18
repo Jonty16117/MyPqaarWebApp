@@ -9,7 +9,7 @@ export const fetchTruckRequests = () => {
       let newData = new Map();
       newData.set("AddRequests", [])
       newData.set("RemoveRequests", [])
-      console.log("fetching live truck requests")
+      // console.log("fetching live truck requests")
 
       querySnapshot.forEach((doc) => {
         if (doc.id !== "DummyDoc" && doc.data().RequestStatus === null) {

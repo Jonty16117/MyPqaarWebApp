@@ -151,11 +151,15 @@ class AddRoutes extends Component {
   }
 
   handleClickLR = (e) => {
-    this.toggleShowModal();
+    //for testing
+    // this.toggleShowModal();
+    //-----------------------------------
+
     if (this.validateLRLData()) {
+      this.toggleShowModal();
       this.setState({ lRLDataErrorAlert: false });
     } else {
-      this.toggleShowModal();
+      this.toggleHideModal();
       this.setState({ lRLDataErrorAlert: true });
     }
   };
@@ -212,9 +216,9 @@ class AddRoutes extends Component {
                       />
                     );
                   })}
-                  <Button variant="primary" style={{ marginTop: "20px" }}>
+                  {/* <Button variant="primary" style={{ marginTop: "20px" }}>
                     Copy Default To Live Routes List
-                  </Button>
+                  </Button> */}
                 </Card.Body>
               )}
               <Card.Footer className="text-muted">

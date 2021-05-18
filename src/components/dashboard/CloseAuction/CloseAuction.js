@@ -66,7 +66,11 @@ function CloseAuction(props) {
       <AuctionsInfo />
       {/* {true ? (auctionClosedSuccessAlert()) : (null)} */}
       {props.closingAuction === false ? auctionClosedSuccessAlert() : null}
-      {props.aucTimings.StartTime <= Date.now() ? (
+      {(
+        props.aucTimings.StartTime !== 0 &&
+        props.aucTimings.Endtime !== 0 && 
+        props.aucTimings.StartTime <= Date.now()
+        ) ? (
         props.closingAuction === null ? (
           <Button variant="primary" size="lg" block onClick={handleShowModal}>
             Close Auction

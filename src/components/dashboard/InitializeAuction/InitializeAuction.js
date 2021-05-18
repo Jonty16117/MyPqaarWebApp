@@ -554,7 +554,7 @@ class InitializeAuction extends Component {
               <input
                 className="form-control form-control-sm"
                 type="number"
-                placeholder="Enter bid time per user"
+                placeholder="Enter bid time per user in seconds"
                 style={{ marginBottom: "25px" }}
                 onChange={this.handleChangeBidTime}
               ></input>

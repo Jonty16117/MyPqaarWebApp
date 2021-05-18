@@ -7,17 +7,15 @@ export const fetchPRL = () => {
     firestore.collection(MANDI_ROUTES_LIST).onSnapshot((querySnapshot) => {
       let prl = [];
       querySnapshot.forEach((doc) => {
-        if (doc.id !== "DummyDoc") {
+        if (doc.id !== "DummyDoc" && Object.keys(doc.data()).length > 2) {
           let docData = doc.data();
-          let keys = Object.keys(docData);
-          let liveMandiRoutes = docData[keys[0]];
-          let i;
-          for (i = 1; i < keys.length; i++) {
-            let value = docData[keys[i]];
-            if (value > liveMandiRoutes) liveMandiRoutes = value;
+          for (const routes in docData) {
+            if (docData[routes].Status === "Live") {
+              let liveMandiRoutes = docData[routes];
+              liveMandiRoutes["Mandi"] = doc.id;
+              prl.push(liveMandiRoutes);
+            }
           }
-          liveMandiRoutes["Mandi"] = doc.id;
-          prl.push(liveMandiRoutes);
         }
       });
       dispatch({ type: "STORE_PRL", payload: prl });
