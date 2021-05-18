@@ -37,7 +37,7 @@ function ShowAllTrucksItem(props) {
         </p>
         <p>Truck Owner:&nbsp;</p>
         <p style={{ fontWeight: "bold" }}>
-          {props.FirstName}&nbsp;{props.LastName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          {props.OwnerFirstName}&nbsp;{props.OwnerLastName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <br />
         <p>Front RC:&nbsp;</p>

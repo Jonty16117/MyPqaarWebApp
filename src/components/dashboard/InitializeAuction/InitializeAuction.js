@@ -171,7 +171,7 @@ class InitializeAuction extends Component {
             <h5 className="card-title">Last auction overview</h5>
             {this.state.fetchedLastAucListDoc ? (
               <p className="card-text">
-                Last auction had total {this.state.lastAucListDoc.size - 1}{" "}
+                Last auction had total {this.state.lastAucListDoc.size}{" "}
                 trucks out of which{" "}
                 {this.state.lalForModalDialog.reduce(
                   (t, value) => t + (value.closed === "true" ? 1 : 0),
