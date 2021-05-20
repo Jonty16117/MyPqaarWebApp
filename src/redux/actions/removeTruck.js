@@ -23,7 +23,8 @@ import {
       firestore
         .collection(TRUCKS_REQ)
         .doc(truckNo)
-        .update({ RequestStatus: "Accepted" })
+        .delete()
+        // .update({ RequestStatus: "Accepted" })
         .then(() => {
           
           dispatch({ type: "REMOVED_TRUCK" });

@@ -38,7 +38,8 @@ const addTruck = (ownerUId, truckNo, ownerFirstName, ownerLastName, frontRCURL, 
     firestore
       .collection(TRUCKS_REQ)
       .doc(truckNo)
-      .update({ RequestStatus: "Accepted" })
+      .delete()
+      // .update({ RequestStatus: "Accepted" })
       .then(() => {
         
         dispatch({ type: "ADDED_TRUCK" });
