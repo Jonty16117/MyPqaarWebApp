@@ -20,7 +20,7 @@ export const fetchLiveAuctionList = () => {
           }
           if (change.type === "modified") {
             if (!bidRequests.has(change.doc.id)) {
-              console.log("incoming bid request");
+              // console.log("incoming bid request");
               dispatch({
                 type: "VERIFYING_NEW_BID_REQUEST",
                 payload: change.doc.id,
@@ -37,8 +37,8 @@ export const fetchLiveAuctionList = () => {
                 (change.doc.data().Des !== null && change.doc.data().Des.length !== 0)
                   ? change.doc.data().Des.trim()
                   : "";
-                  console.log("src: ", src)
-                  console.log("des: ", des)
+                  // console.log("src: ", src)
+                  // console.log("des: ", des)
               if (
                 Date.now() > startTime &&
                 closed === "false" &&
@@ -50,40 +50,40 @@ export const fetchLiveAuctionList = () => {
                 let req = Number(lrl.get(`${src}-${des}-Req`).Value);
                 let got = Number(lrl.get(`${src}-${des}-Got`).Value);
 
-                console.log("req: ", req);
-                console.log("got: ", got);
+                // console.log("req: ", req);
+                // console.log("got: ", got);
                 if (req - got > 0) {
-                  console.log("routes are available");
+                  // console.log("routes are available");
                   firestore
                     .collection(LIVE_ROUTES_LIST)
                     .doc(`${src}-${des}-Got`)
                     .update({ Value: got + 1 })
                     .then(() => {
-                      console.log("Routes list successfully updated!");
-                      console.log("before bonus time");
+                      // console.log("Routes list successfully updated!");
+                      // console.log("before bonus time");
                       //check to see if the current request falls in bonus time
-                      console.log(
-                        "bonus start time: ",
-                        Number(getState().firestore.bonusTimings.StartTime)
-                      );
+                      // console.log(
+                      //   "bonus start time: ",
+                      //   Number(getState().firestore.bonusTimings.StartTime)
+                      // );
                       if (
                         Date.now() >=
                           Number(getState().firestore.bonusTimings.StartTime) &&
                         Date.now() <
                           Number(getState().firestore.bonusTimings.EndTime)
                       ) {
-                        console.log("bid request in bonus time");
+                        // console.log("bid request in bonus time");
                         firestore
                           .collection(LIVE_AUCTION_LIST)
                           .doc(change.doc.data().CurrNo.trim())
                           .update({ StartTime: 99999999999999 })
                           .then(() => {
-                            console.log(
-                              "updated auction list item's start time to avoid recursion hell"
-                            );
-                            console.log(
-                              "Bid accepted successfully in bonus time!"
-                            );
+                            // console.log(
+                            //   "updated auction list item's start time to avoid recursion hell"
+                            // );
+                            // console.log(
+                            //   "Bid accepted successfully in bonus time!"
+                            // );
                             firestore
                               .collection(LIVE_TRUCK_DATA_LIST)
                               .doc(change.doc.data().TruckNo.trim())
@@ -93,17 +93,17 @@ export const fetchLiveAuctionList = () => {
                                 Status: "DelInProg",
                               })
                               .then(() => {
-                                console.log("Bid accepted successfully!");
+                                // console.log("Bid accepted successfully!");
                                 dispatch({
                                   type: "VERIFIED_NEW_BID_REQUEST",
                                 });
                               })
                               .catch((error) => {
                                 // Refresh the page.
-                                console.error(
-                                  "Error accepting bid, please refresh the page: ",
-                                  error
-                                );
+                                // console.error(
+                                //   "Error accepting bid, please refresh the page: ",
+                                //   error
+                                // );
                                 dispatch({
                                   type: "UPDATING_LIVE_AUCTION_LIST_ERROR",
                                 });
@@ -111,25 +111,25 @@ export const fetchLiveAuctionList = () => {
                           })
                           .catch((error) => {
                             // Refresh the page.
-                            console.error(
-                              "Error accepting bid, please refresh the page: ",
-                              error
-                            );
+                            // console.error(
+                            //   "Error accepting bid, please refresh the page: ",
+                            //   error
+                            // );
                             dispatch({
                               type: "UPDATING_LIVE_AUCTION_LIST_ERROR",
                             });
                           });
                       } else {
                         // else the bid does not fall into bonus time, therefore mark it as closed
-                        console.log("closing bid  ");
+                        // console.log("closing bid  ");
                         firestore
                           .collection(LIVE_AUCTION_LIST)
                           .doc(change.doc.data().CurrNo.trim())
                           .update({ Closed: "true" })
                           .then(() => {
-                            console.log(
-                              "updated auction list item's start time to avoid recursion hell"
-                            );
+                            // console.log(
+                            //   "updated auction list item's start time to avoid recursion hell"
+                            // );
                             firestore
                               .collection(LIVE_TRUCK_DATA_LIST)
                               .doc(change.doc.data().TruckNo.trim())
@@ -143,17 +143,17 @@ export const fetchLiveAuctionList = () => {
                                 Timestamp: Date.now(),
                               })
                               .then(() => {
-                                console.log("Bid accepted successfully!");
+                                // console.log("Bid accepted successfully!");
                                 dispatch({
                                   type: "VERIFIED_NEW_BID_REQUEST",
                                 });
                               })
                               .catch((error) => {
                                 // Refresh the page.
-                                console.error(
-                                  "Error accepting bid, please refresh the page: ",
-                                  error
-                                );
+                                // console.error(
+                                //   "Error accepting bid, please refresh the page: ",
+                                //   error
+                                // );
                                 dispatch({
                                   type: "UPDATING_LIVE_AUCTION_LIST_ERROR",
                                 });
@@ -161,10 +161,10 @@ export const fetchLiveAuctionList = () => {
                           })
                           .catch((error) => {
                             // Refresh the page.
-                            console.error(
-                              "Error accepting bid, please refresh the page: ",
-                              error
-                            );
+                            // console.error(
+                            //   "Error accepting bid, please refresh the page: ",
+                            //   error
+                            // );
                             dispatch({
                               type: "UPDATING_LIVE_AUCTION_LIST_ERROR",
                             });
@@ -173,10 +173,10 @@ export const fetchLiveAuctionList = () => {
                     })
                     .catch((error) => {
                       // Refresh the page.
-                      console.error(
-                        "Error accepting bid, please refresh the page: ",
-                        error
-                      );
+                      // console.error(
+                      //   "Error accepting bid, please refresh the page: ",
+                      //   error
+                      // );
                       dispatch({ type: "UPDATING_LIVE_AUCTION_LIST_ERROR" });
                     });
                 }
@@ -185,7 +185,7 @@ export const fetchLiveAuctionList = () => {
             }
           }
           if (change.type === "removed") {
-            console.log("Removed auction list item: ", change.doc.data());
+            // console.log("Removed auction list item: ", change.doc.data());
             newList.delete(change.doc.data().CurrNo);
           }
         }

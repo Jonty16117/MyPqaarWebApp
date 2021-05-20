@@ -420,9 +420,9 @@ class InitializeAuction extends Component {
 
   handleClickUploadLAL = (e) => {
     let endTime =
-      this.props.aucTimings +
+      this.props.aucTimings.StartTime +
       this.state.draftLiveAuctionList.length *
-        this.state.perUserBidDurationInMillis;
+        this.state.perUserBidDurationInMillis * 1000;
     console.log("endtime: ", endTime);
     if (this.state.uploadingLALError.length !== 0) {
       this.setState({ uploadingLALErrorAlert: true });

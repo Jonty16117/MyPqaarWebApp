@@ -52,11 +52,11 @@ class LiveAuctionList extends Component {
 
   handleOnClickUploadBonusTime = (e) => {
     e.preventDefault();
-    console.log(this.state.editBonusStartTime, this.state.editBonusEndTime)
-    let startTime = this.state.editBonusStartTime
-    let endTime = this.state.editBonusEndTime
-    if (startTime !== null && endTime  !== null) {
-      this.props.uploadBonusTime(startTime.getTime(), endTime.getTime())
+    console.log(this.state.editBonusStartTime, this.state.editBonusEndTime);
+    let startTime = this.state.editBonusStartTime;
+    let endTime = this.state.editBonusEndTime;
+    if (startTime !== null && endTime !== null) {
+      this.props.uploadBonusTime(startTime.getTime(), endTime.getTime());
       this.toggleHideBonusTimeModal();
     }
   };
@@ -65,7 +65,7 @@ class LiveAuctionList extends Component {
     e.preventDefault();
   };
 
-  liveAuctionListGroupItem = (chunkedItem) => {
+  liveAuctionListGroupItem = (chunkedItem, groupIndex) => {
     return (
       <Accordion
         // defaultActiveKey={this.state[index]}
@@ -92,7 +92,7 @@ class LiveAuctionList extends Component {
           <Accordion.Collapse eventKey="1">
             <>
               {/* List inside this group */}
-              {chunkedItem.map((aucItem) => (
+              {chunkedItem.map((aucItem, itemIndex) => (
                 <div
                   className="container"
                   className={styles.liveAuctionListItem}
@@ -100,7 +100,8 @@ class LiveAuctionList extends Component {
                 >
                   <p>Pqaar no:&nbsp;</p>
                   <p style={{ fontWeight: "bold" }}>
-                    {aucItem.CurrNo}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    {this.state.chunkedLAL[groupIndex][itemIndex].CurrNo}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   </p>
                   <p>Truck no:&nbsp;</p>
                   <p style={{ fontWeight: "bold" }}>
@@ -110,7 +111,9 @@ class LiveAuctionList extends Component {
                   <p style={{ fontWeight: "bold" }}>
                     {aucItem.PrevNo}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   </p>
-                  {aucItem.Closed === "true" ? (
+                  {/* {this.state.chunkedLAL[groupIndex][itemIndex].Closed.toString() === */}
+                  {aucItem.Closed.toString() ===
+                  "true" ? (
                     <React.Fragment>
                       <p>Accepted&nbsp;</p>
                       <img
@@ -119,7 +122,8 @@ class LiveAuctionList extends Component {
                         alt="bid accepted"
                       ></img>
                     </React.Fragment>
-                  ) : aucItem.StartTime <= Date.now() ? (
+                  ) : Number(aucItem.StartTime) <=
+                    Date.now() ? (
                     <React.Fragment>
                       <p>Unlocked&nbsp;</p>
                       <img
@@ -129,31 +133,45 @@ class LiveAuctionList extends Component {
                       ></img>
                     </React.Fragment>
                   ) : (
-                    <React.Fragment>
-                      <p>Unlocks in:&nbsp;</p>
-                      <p style={{ fontWeight: "bold" }}>
-                        <Timer
-                          initialTime={aucItem.StartTime - Date.now()}
-                          direction="backward"
-                        >
-                          {() => (
+                    <Timer
+                      initialTime={
+                        Number(aucItem.StartTime) -
+                        Date.now()
+                      }
+                      direction="backward"
+                    >
+                      {({ start, resume, pause, stop, reset, timerState }) => (
+                        <p>
+                          {timerState === "STOPPED" ? (
                             <React.Fragment>
-                              <Timer.Hours />
-                              &nbsp;:&nbsp;
-                              <Timer.Minutes />
-                              &nbsp;:&nbsp;
-                              <Timer.Seconds />
+                              <p>Unlocked&nbsp;</p>
+                              <img
+                                className={styles.ic_lock}
+                                src={ic_unlocked}
+                                alt="unlocked"
+                              ></img>
+                            </React.Fragment>
+                          ) : (
+                            <React.Fragment>
+                              <p>Unlocks in:&nbsp;</p>
+                              <p style={{ fontWeight: "bold" }}>
+                                <Timer.Hours />
+                                &nbsp;:&nbsp;
+                                <Timer.Minutes />
+                                &nbsp;:&nbsp;
+                                <Timer.Seconds />
+                              </p>
                               &nbsp;
+                              <img
+                                className={styles.ic_lock}
+                                src={ic_locked}
+                                alt="locked"
+                              ></img>
                             </React.Fragment>
                           )}
-                        </Timer>
-                      </p>
-                      <img
-                        className={styles.ic_lock}
-                        src={ic_locked}
-                        alt="locked"
-                      ></img>
-                    </React.Fragment>
+                        </p>
+                      )}
+                    </Timer>
                   )}
                 </div>
               ))}
@@ -279,15 +297,15 @@ class LiveAuctionList extends Component {
                 </Spinner>
               </div>
             ) : (
-              this.state.chunkedLAL.map((chunkedItem) => {
-                return this.liveAuctionListGroupItem(chunkedItem);
+              this.state.chunkedLAL.map((chunkedItem, groupIndex) => {
+                return this.liveAuctionListGroupItem(chunkedItem, groupIndex);
               })
             )}
           </Card.Body>
           <Card.Footer className="text-muted">
             <p style={{ fontSize: "15px", margin: "0" }}>
-              Click on any auction list range to view/hide live auction list in that
-              range.
+              Click on any auction list range to view/hide live auction list in
+              that range.
             </p>
           </Card.Footer>
         </Card>

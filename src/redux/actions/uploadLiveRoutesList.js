@@ -22,7 +22,7 @@ export const uploadLiveRoutesList = (lrl) => {
     batch
       .commit()
       .then(() => {
-        console.log("uploaded batch: ", lrl)
+        // console.log("uploaded batch: ", lrl)
         dispatch({ type: "FETCH_LRL", payload: lrl });
         dispatch({ type: "LRL_IS_UPLOADED" });
       })
