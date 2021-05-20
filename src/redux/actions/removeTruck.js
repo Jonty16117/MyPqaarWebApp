@@ -24,16 +24,15 @@ import {
         .collection(TRUCKS_REQ)
         .doc(truckNo)
         .delete()
-        // .update({ RequestStatus: "Accepted" })
         .then(() => {
-          
           dispatch({ type: "REMOVED_TRUCK" });
         })
         .catch((error) => {
           dispatch({ type: "REMOVED_TRUCK" });
         });
+      };
     };
-  };
-  
-  export default addTruck
-  
+    
+    // .update({ RequestStatus: "Accepted" })
+    export default addTruck
+    

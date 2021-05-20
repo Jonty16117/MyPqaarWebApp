@@ -39,9 +39,7 @@ const addTruck = (ownerUId, truckNo, ownerFirstName, ownerLastName, frontRCURL, 
       .collection(TRUCKS_REQ)
       .doc(truckNo)
       .delete()
-      // .update({ RequestStatus: "Accepted" })
       .then(() => {
-        
         dispatch({ type: "ADDED_TRUCK" });
       })
       .catch((error) => {
@@ -50,4 +48,5 @@ const addTruck = (ownerUId, truckNo, ownerFirstName, ownerLastName, frontRCURL, 
   };
 };
 
+// .update({ RequestStatus: "Accepted" })
 export default addTruck
