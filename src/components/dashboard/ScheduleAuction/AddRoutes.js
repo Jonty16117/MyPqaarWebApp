@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import ProposedRouteListItem from "./ProposedRouteListItem";
 import LiveRoutesListItem from "./LiveRoutesListItem";
 import { NavLink } from "react-router-dom";
+import { CurrTimeInMillis } from "../../../utils/utilityFunctions";
 
 function isARoute(key) {
   if (key === "Status" || key === "Timestamp" || key === "Mandi") {
@@ -296,10 +297,7 @@ class AddRoutes extends Component {
                             marginTop: "20px",
                           }}
                         >
-                          <Spinner
-                            animation="border"
-                            role="status"
-                          >
+                          <Spinner animation="border" role="status">
                             <span className="sr-only">Loading...</span>
                           </Spinner>
                         </div>

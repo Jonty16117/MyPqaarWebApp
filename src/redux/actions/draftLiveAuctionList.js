@@ -25,10 +25,11 @@ function truckIsEligibleForAuction(truckNo) {
       .Source === liveTruckDataList.get(truckNo).Source &&
     pahunchs.get(liveTruckDataList.get(truckNo).AuctionId).get(truckNo)
       .Destination === liveTruckDataList.get(truckNo).Destination &&
-    pahunchs.get(liveTruckDataList.get(truckNo).AuctionId).get(truckNo)
-      .Timestamp.seconds *
-      1000 >
-      Number(liveTruckDataList.get(truckNo).Timestamp) * 1000;
+    Number(pahunchs.get(liveTruckDataList.get(truckNo).AuctionId).get(truckNo)
+      .Timestamp) > Number(liveTruckDataList.get(truckNo).Timestamp);
+      // pahunchs.get(liveTruckDataList.get(truckNo).AuctionId).get(truckNo)
+      //   .Timestamp.seconds *
+      //   1000 >
   if (liveTruckDataList.get(truckNo).Status === "DelPass") {
     truckPahunchCorrect =
       truckPahunchCorrect &&
@@ -40,7 +41,6 @@ function truckIsEligibleForAuction(truckNo) {
       pahunchs.get(liveTruckDataList.get(truckNo).AuctionId).get(truckNo)
         .Status === "Rejected";
   }
-  
 
   return truckPahunchCorrect;
 }
@@ -93,7 +93,7 @@ export const draftLiveAuctionList = (perUserBidDurationInMillis) => {
         // console.log("starttime: ", Number(liveTruckDataListIt.get(truck).Timestamp))
         lastOpenClosedLists.lastMissed.push(newEntryInLAL);
       }
-    })
+    });
 
     /**
      * sort the newly generated missed list according
@@ -101,27 +101,32 @@ export const draftLiveAuctionList = (perUserBidDurationInMillis) => {
      */
     lastOpenClosedLists.lastMissed.sort((a, b) => a.Timestamp - b.Timestamp);
 
-
     /**
      * Combine last closed, last open and last missed list in the following order:
      *
      * Last Missed List -> Last Open List -> Last Closed List
      */
     let draftLiveAuctionList = [];
-    draftLiveAuctionList = draftLiveAuctionList.concat(lastOpenClosedLists.lastMissed);
-    draftLiveAuctionList = draftLiveAuctionList.concat(lastOpenClosedLists.lastOpen);
-    draftLiveAuctionList = draftLiveAuctionList.concat(lastOpenClosedLists.lastClosed);
+    draftLiveAuctionList = draftLiveAuctionList.concat(
+      lastOpenClosedLists.lastMissed
+    );
+    draftLiveAuctionList = draftLiveAuctionList.concat(
+      lastOpenClosedLists.lastOpen
+    );
+    draftLiveAuctionList = draftLiveAuctionList.concat(
+      lastOpenClosedLists.lastClosed
+    );
 
     // console.log("lastOpenClosedLists: ", lastOpenClosedLists.lastOpen)
     // console.log("draftLiveAuctionList: ", draftLiveAuctionList)
-    
+
     /**
      * Assign the sequence numbers and set the starting unlock time
      * to each truck in live auction list.
      */
     let aucStartTime = getState().firestore.aucTimings.StartTime;
     draftLiveAuctionList.forEach((item, index) => {
-      item.StartTime = aucStartTime + (perUserBidDurationInMillis * 1000) * index;
+      item.StartTime = aucStartTime + perUserBidDurationInMillis * 1000 * index;
       item.CurrNo = `${index + 1}`;
       item.Src = null;
       item.Des = null;

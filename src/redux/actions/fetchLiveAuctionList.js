@@ -7,25 +7,33 @@ import {
 export const fetchLiveAuctionList = () => {
   return (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
-    let bidRequests = new Map();
+    // let bidRequests = new Map();
     firestore.collection(LIVE_AUCTION_LIST).onSnapshot((snapshot) => {
       // let newList = getState().firestore.updatedLAL;
       let lrl = getState().firestore.updatedLRL;
       let newList = new Map();
+      snapshot.forEach((doc) => {
+        if (doc.id !== "DummyDoc") { 
+          newList.set(doc.data().CurrNo, doc.data());
+        }
+      })
+
       snapshot.docChanges().forEach((change) => {
         if (change.doc.id !== "DummyDoc") {
-          newList.set(change.doc.data().CurrNo, change.doc.data());
+          // console.log(`updated lal: ${change.doc.data().CurrNo}`)
           if (change.type === "added") {
             // console.log("added new auction item: ", change.doc.data());
           }
           if (change.type === "modified") {
-            if (!bidRequests.has(change.doc.id)) {
+            // if (!bidRequests.has(change.doc.id)) {
+            if (true) {
+
               // console.log("incoming bid request");
               dispatch({
                 type: "VERIFYING_NEW_BID_REQUEST",
                 payload: change.doc.id,
               });
-              bidRequests.set(change.doc.id, change.doc.data());
+              // bidRequests.set(change.doc.id, change.doc.data());
               let startTime = Number(change.doc.data().StartTime);
               let closed = change.doc.data().Closed.toString();
               //pre-validate src and des strings
@@ -181,7 +189,7 @@ export const fetchLiveAuctionList = () => {
                     });
                 }
               }
-              bidRequests.delete(change.doc.id);
+              // bidRequests.delete(change.doc.id);
             }
           }
           if (change.type === "removed") {
