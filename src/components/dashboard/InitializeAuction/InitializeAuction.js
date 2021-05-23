@@ -73,9 +73,9 @@ class InitializeAuction extends Component {
       if (fetchedLastAucListDoc) {
         let lal = [];
         for (let i = 1; i < this.state.lastAucListDoc.size; i++) {
-          let truckNo = this.state.lastAucListDoc.get(`${i}`).truck_no;
+          let truckNo = this.state.lastAucListDoc.get(`${i}`).TruckNo;
           let closed =
-            this.state.lastAucListDoc.get(`${i}`).bid_closed === "true"
+            this.state.lastAucListDoc.get(`${i}`).Closed.toString() === "true"
               ? "Yes"
               : "No";
           lal.push({ TruckNo: truckNo, Closed: closed, CurrListNo: i });
@@ -171,9 +171,9 @@ class InitializeAuction extends Component {
             <h5 className="card-title">Last auction overview</h5>
             {this.state.fetchedLastAucListDoc ? (
               <p className="card-text">
-                Last auction had total {this.state.lastAucListDoc.size}{" "}
+                Last auction had total {this.state.lastAucListDoc.size - 1}{" "}
                 trucks out of which{" "}
-                {this.state.lalForModalDialog.reduce(
+              {this.state.lalForModalDialog.reduce(
                   (t, value) => t + (value.closed === "true" ? 1 : 0),
                   0
                 )}{" "}
@@ -342,8 +342,9 @@ class InitializeAuction extends Component {
                 Last Closed
               </div>
             </div>
-            {this.state.lalForModalDialog.map((lalItem) => (
-              <div className="row" key={lalItem.CurrListNo}>
+          {this.state.lalForModalDialog.map((lalItem) => {
+              // console.log(lalItem)
+              return (<div className="row" key={lalItem.CurrListNo}>
                 <div className="col" style={{ textAlign: "center" }}>
                   {lalItem.CurrListNo}
                 </div>
@@ -353,8 +354,8 @@ class InitializeAuction extends Component {
                 <div className="col" style={{ textAlign: "center" }}>
                   {lalItem.Closed}
                 </div>
-              </div>
-            ))}
+              </div>)
+    })}
           </ul>
         </React.Fragment>
       );

@@ -22,7 +22,7 @@ export const fetchLastAuctionListDocument = () => {
             lastAuctionListDocument = doc.data();
           }
         });
-        // console.log("Fetched last auction document:", lastAuctionListDocument);
+        // console.log("Fetched last auction document:", new Map(Object.entries(lastAuctionListDocument)));
         dispatch({
           type: "FETCHED_LAST_AUCTION_LIST",
           payload: new Map(Object.entries(lastAuctionListDocument)),
