@@ -53,9 +53,7 @@ const closeAuction = () => {
             };
             allLALDocsIds.push(doc.id);
           }
-          lal["Timestamp"] = firestore.Timestamp.fromDate(
-            new Date(closingTime)
-          );
+          lal["Timestamp"] = closingTime;
 
           //   console.log("lal: ", lal);
           //   console.log("allLALDocsIds: ", allLALDocsIds);
