@@ -9,6 +9,7 @@ export const fetchAuctionsInfo = () => {
 
     firestore.collection(AUCTIONS_INFO).onSnapshot((querySnapshot) => {
       querySnapshot.forEach((doc) => {
+        console.log(doc)
         if (doc.id === SCHEDULED_AUCTIONS) {
           updatedAuctionsInfo = doc.data();
           dispatch({ type: "FETCH_AUC_TIMINGS", payload: updatedAuctionsInfo });

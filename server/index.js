@@ -1,0 +1,1 @@
+// parse-server --appId myAppId --masterKey myMasterKey --databaseURI mongodb://localhost/test

@@ -3,7 +3,6 @@ import { useState } from "react";
 import styles from "../../../styles/ShowAllTrucksItem.module.css";
 import Viewer from "react-viewer";
 
-
 function ShowAllTrucksItem(props) {
   const [visible, setVisible] = useState(false);
 
@@ -37,7 +36,8 @@ function ShowAllTrucksItem(props) {
         </p>
         <p>Truck Owner:&nbsp;</p>
         <p style={{ fontWeight: "bold" }}>
-          {props.OwnerFirstName}&nbsp;{props.OwnerLastName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          {props.OwnerFirstName}&nbsp;{props.OwnerLastName}
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <br />
         <p>Front RC:&nbsp;</p>
@@ -68,7 +68,7 @@ function ShowAllTrucksItem(props) {
           ]}
           className={styles.ic_lock}
         />
-        </div>
+      </div>
     </React.Fragment>
   );
 }
